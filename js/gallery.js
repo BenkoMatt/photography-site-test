@@ -1,78 +1,62 @@
 /* ═══════════════════════════════════════════════════════════════
-   GRACE & LENS — Client Gallery Page JavaScript
-   Features: Password gate, lightbox slideshow, favorites,
-   download, share, keyboard navigation
+   JENNA LYNN PHOTOGRAPHY — Client Gallery JavaScript
+   Pixieset-style: Cover image · Masonry grid · PhotoSwipe lightbox
+   Features: Password gate, lightbox with counter, favorites,
+   download, share, keyboard navigation, sticky navbar
    ═══════════════════════════════════════════════════════════════ */
 
 (function() {
     'use strict';
 
-    // ─── Navbar & mobile nav (same as main page) ───
-    var navToggle = document.getElementById('navToggle');
-    var navLinks = document.getElementById('navLinks');
-
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            navToggle.classList.toggle('open');
-            navLinks.classList.toggle('open');
-        });
-
-        navLinks.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                navToggle.classList.remove('open');
-                navLinks.classList.remove('open');
-            });
-        });
-    }
-
     // ═══════════════════════════════════════════════════════════════
     // GALLERY PASSCODE CONFIGURATION
     // ═══════════════════════════════════════════════════════════════
-    // ─────────────────────────────────────────────────────────────
-    // IMPORTANT: This is CLIENT-SIDE passcode checking for demo
-    // purposes. It is NOT secure — anyone can view the source and
-    // see these codes.
-    //
-    // FOR PRODUCTION (real client photos on your server):
-    // 1. Remove the GALLERY_CODES object below
-    // 2. Replace the gateForm submit handler with a fetch() call
-    //    to your server API, e.g.:
-    //
-    //    fetch('/api/gallery/verify', {
-    //        method: 'POST',
-    //        headers: { 'Content-Type': 'application/json' },
-    //        body: JSON.stringify({ code: code })
-    //    })
-    //    .then(function(res) { return res.json() })
-    //    .then(function(data) {
-    //        if (data.valid) { loadGallery(data.galleryId, data.photos); }
-    //        else { showError('Invalid passcode'); }
-    //    });
-    //
-    // 3. Your server validates the passcode and returns the list
-    //    of photo URLs for that client's gallery.
-    // ─────────────────────────────────────────────────────────────
     var GALLERY_CODES = {
-        'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024' },
-        'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024' },
-        'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024' }
+        'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024', cover: 'photos/gallery/portraits/matt-grad.jpeg' },
+        'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024', cover: 'photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg' },
+        'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024', cover: 'photos/gallery/couples/JennaLynnPhotography-641.jpg' }
         // Add your client passcodes here, e.g.:
-        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025' }
+        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025', cover: 'photos/client-photos/smith-cover.jpg' }
     };
 
     // ═══════════════════════════════════════════════════════════════
-    // PASSWORD GATE
+    // ELEMENTS
     // ═══════════════════════════════════════════════════════════════
     var galleryGate = document.getElementById('galleryGate');
     var galleryContent = document.getElementById('galleryContent');
     var gateForm = document.getElementById('gateForm');
     var gateCode = document.getElementById('gateCode');
     var gateError = document.getElementById('gateError');
-    var galleryTitle = document.getElementById('galleryTitle');
-    var galleryDate = document.getElementById('galleryDate');
+
+    // Pixieset-style elements
+    var psNav = document.getElementById('psNav');
+    var psGalleryTitle = document.getElementById('psGalleryTitle');
+    var psCoverTitle = document.getElementById('psCoverTitle');
+    var psCoverDate = document.getElementById('psCoverDate');
+    var psCover = document.getElementById('psCover');
+    var psCoverScroll = document.getElementById('psCoverScroll');
     var photoCount = document.getElementById('photoCount');
 
-    // Check if a gallery code was passed in the URL (from homepage login)
+    // Lightbox
+    var psLightbox = document.getElementById('psLightbox');
+    var psLbImg = document.getElementById('psLbImg');
+    var psLbCounter = document.getElementById('psLbCounter');
+    var psLbClose = document.getElementById('psLbClose');
+    var psLbPrev = document.getElementById('psLbPrev');
+    var psLbNext = document.getElementById('psLbNext');
+    var psLbFav = document.getElementById('psLbFav');
+    var psLbShare = document.getElementById('psLbShare');
+    var psLbDownload = document.getElementById('psLbDownload');
+
+    var photos = [];
+    var currentPhoto = 0;
+    var favorites = {};
+
+    // ═══════════════════════════════════════════════════════════════
+    // PASSWORD GATE
+    // ═══════════════════════════════════════════════════════════════
+
+    // Check URL params for passcode from homepage
     var urlParams = new URLSearchParams(window.location.search);
     var presetCode = urlParams.get('gallery');
 
@@ -96,10 +80,7 @@
             } else {
                 gateError.textContent = 'Passcode not found. Please check your email or contact me if you need help.';
                 gateCode.value = '';
-
-                setTimeout(function() {
-                    gateError.textContent = '';
-                }, 5000);
+                setTimeout(function() { gateError.textContent = ''; }, 5000);
             }
         });
     }
@@ -111,203 +92,281 @@
         galleryContent.classList.remove('hidden');
 
         if (info) {
-            galleryTitle.textContent = info.title;
-            galleryDate.textContent = info.date;
+            psCoverTitle.textContent = info.title;
+            psCoverDate.textContent = info.date;
+            psGalleryTitle.textContent = info.title;
+
+            // Update cover image if specified
+            if (info.cover) {
+                var coverBefore = psCover.querySelector('::before'); // Can't set pseudo-element directly
+                // Set cover background via inline style on the cover element
+                psCover.style.backgroundImage = 'url(' + info.cover + ')';
+                psCover.style.backgroundSize = 'cover';
+                psCover.style.backgroundPosition = 'center';
+                // Remove the ::before by adding a class
+                psCover.classList.add('has-custom-cover');
+            }
         }
 
-        // Count photos
-        var items = document.querySelectorAll('.gallery-item');
-        if (photoCount) photoCount.textContent = items.length;
+        // Collect photos
+        photos = Array.prototype.slice.call(document.querySelectorAll('.ps-photo'));
+        if (photoCount) photoCount.textContent = photos.length;
 
-        // Scroll to top of gallery
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Scroll to top
+        window.scrollTo(0, 0);
 
-        // Initialize slideshow with gallery items
-        initSlideshow();
+        // Initialize interactions
+        initPhotoClicks();
+        initNavbarScroll();
     }
 
     // ═══════════════════════════════════════════════════════════════
-    // FAVORITES
+    // NAVBAR SCROLL (show/hide on scroll)
     // ═══════════════════════════════════════════════════════════════
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('gallery-action') && e.target.title === 'Favorite') {
-            e.stopPropagation();
-            e.target.classList.toggle('favorited');
-            if (e.target.classList.contains('favorited')) {
-                e.target.textContent = '♥';
+    function initNavbarScroll() {
+        var coverHeight = psCover ? psCover.offsetHeight : 300;
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > coverHeight - 80) {
+                psNav.classList.add('visible');
             } else {
-                e.target.textContent = '♡';
+                psNav.classList.remove('visible');
             }
+        });
+
+        // Cover scroll button
+        if (psCoverScroll) {
+            psCoverScroll.addEventListener('click', function() {
+                var toolbar = document.getElementById('psToolbar');
+                if (toolbar) {
+                    toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    window.scrollTo({ top: coverHeight, behavior: 'smooth' });
+                }
+            });
         }
-    });
+    }
 
     // ═══════════════════════════════════════════════════════════════
-    // SLIDESHOW / LIGHTBOX
+    // PHOTO CLICK → LIGHTBOX
     // ═══════════════════════════════════════════════════════════════
-    var slideshow = document.getElementById('slideshow');
-    var slideshowImg = document.getElementById('slideshowImg');
-    var slideshowClose = document.getElementById('slideshowClose');
-    var slideshowPrev = document.getElementById('slideshowPrev');
-    var slideshowNext = document.getElementById('slideshowNext');
-    var slideshowContent = document.getElementById('slideshowContent');
-    var galleryItems = [];
-    var currentSlide = 0;
+    function initPhotoClicks() {
+        photos.forEach(function(photo, index) {
+            photo.addEventListener('click', function(e) {
+                // Don't open lightbox if clicking action buttons
+                if (e.target.closest('.ps-action')) return;
+                currentPhoto = index;
+                openLightbox();
+            });
+        });
 
-    function initSlideshow() {
-        galleryItems = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
-
-        galleryItems.forEach(function(item, index) {
-            item.addEventListener('click', function(e) {
-                // Don't open slideshow if clicking action buttons
-                if (e.target.classList.contains('gallery-action')) return;
-                currentSlide = index;
-                showSlide();
-                openSlideshow();
+        // Favorite buttons in grid
+        document.querySelectorAll('.ps-action[data-action="fav"]').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var photoEl = this.closest('.ps-photo');
+                var photoIndex = photos.indexOf(photoEl);
+                toggleFavorite(photoIndex, this);
             });
         });
     }
 
-    function showSlide() {
-        var item = galleryItems[currentSlide];
-        if (!item) return;
-
-        var img = item.querySelector('img');
-        var placeholder = item.querySelector('.photo-placeholder');
-        var fullSrc = item.getAttribute('data-full');
-
-        // Clean up previous placeholder
-        var existing = slideshowContent.querySelector('.slide-placeholder');
-        if (existing) existing.remove();
-
-        if (img && img.src) {
-            slideshowImg.src = img.src;
-            slideshowImg.alt = img.alt || '';
-            slideshowImg.style.display = 'block';
-        } else if (fullSrc) {
-            // Try to load the data-full image
-            slideshowImg.src = fullSrc;
-            slideshowImg.alt = '';
-            slideshowImg.style.display = 'block';
-            slideshowImg.onerror = function() {
-                slideshowImg.style.display = 'none';
-                showSlidePlaceholder(placeholder);
-            };
-        } else if (placeholder) {
-            slideshowImg.style.display = 'none';
-            showSlidePlaceholder(placeholder);
+    function toggleFavorite(index, btnEl) {
+        favorites[index] = !favorites[index];
+        if (btnEl) {
+            if (favorites[index]) {
+                btnEl.classList.add('favorited');
+                btnEl.textContent = '♥';
+            } else {
+                btnEl.classList.remove('favorited');
+                btnEl.textContent = '♡';
+            }
+        }
+        // Update lightbox fav button if open
+        if (psLightbox.classList.contains('open')) {
+            updateLightboxFav();
         }
     }
 
-    function showSlidePlaceholder(placeholder) {
-        var span = placeholder ? placeholder.querySelector('span') : null;
-        var div = document.createElement('div');
-        div.className = 'photo-placeholder slide-placeholder';
-        div.style.cssText = 'width:400px;height:300px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.5rem;';
-        var spanEl = document.createElement('span');
-        spanEl.textContent = span ? span.textContent : 'Photo';
-        div.appendChild(spanEl);
-        slideshowContent.appendChild(div);
-    }
-
-    function openSlideshow() {
-        slideshow.classList.add('open');
-        slideshow.setAttribute('aria-hidden', 'false');
+    // ═══════════════════════════════════════════════════════════════
+    // LIGHTBOX
+    // ═══════════════════════════════════════════════════════════════
+    function openLightbox() {
+        showPhoto();
+        psLightbox.classList.add('open');
+        psLightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeSlideshow() {
-        slideshow.classList.remove('open');
-        slideshow.setAttribute('aria-hidden', 'true');
+    function closeLightbox() {
+        psLightbox.classList.remove('open');
+        psLightbox.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
-        var existing = slideshowContent.querySelector('.slide-placeholder');
-        if (existing) existing.remove();
     }
 
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % galleryItems.length;
-        showSlide();
+    function showPhoto() {
+        var photo = photos[currentPhoto];
+        if (!photo) return;
+
+        var fullSrc = photo.getAttribute('data-full');
+        var img = photo.querySelector('img');
+        var alt = img ? img.alt : '';
+
+        // Fade transition
+        psLbImg.style.opacity = '0';
+        setTimeout(function() {
+            psLbImg.src = fullSrc;
+            psLbImg.alt = alt;
+            psLbImg.style.opacity = '1';
+        }, 150);
+
+        // Update counter
+        psLbCounter.textContent = (currentPhoto + 1) + ' / ' + photos.length;
+
+        // Update fav state
+        updateLightboxFav();
+
+        // Update download link
+        if (psLbDownload) {
+            psLbDownload.onclick = function() {
+                var a = document.createElement('a');
+                a.href = fullSrc;
+                a.download = fullSrc.split('/').pop();
+                a.click();
+            };
+        }
     }
 
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + galleryItems.length) % galleryItems.length;
-        showSlide();
+    function updateLightboxFav() {
+        if (favorites[currentPhoto]) {
+            psLbFav.classList.add('favorited');
+        } else {
+            psLbFav.classList.remove('favorited');
+        }
     }
 
-    if (slideshowClose) slideshowClose.addEventListener('click', closeSlideshow);
-    if (slideshowNext) slideshowNext.addEventListener('click', function(e) { e.stopPropagation(); nextSlide(); });
-    if (slideshowPrev) slideshowPrev.addEventListener('click', function(e) { e.stopPropagation(); prevSlide(); });
+    function nextPhoto() {
+        currentPhoto = (currentPhoto + 1) % photos.length;
+        showPhoto();
+    }
 
-    if (slideshow) {
-        slideshow.addEventListener('click', function(e) {
-            if (e.target === slideshow) closeSlideshow();
+    function prevPhoto() {
+        currentPhoto = (currentPhoto - 1 + photos.length) % photos.length;
+        showPhoto();
+    }
+
+    // Lightbox event listeners
+    if (psLbClose) psLbClose.addEventListener('click', closeLightbox);
+    if (psLbNext) psLbNext.addEventListener('click', nextPhoto);
+    if (psLbPrev) psLbPrev.addEventListener('click', prevPhoto);
+
+    if (psLbFav) {
+        psLbFav.addEventListener('click', function() {
+            // Find the grid fav button for this photo
+            var photoEl = photos[currentPhoto];
+            var gridFavBtn = photoEl ? photoEl.querySelector('.ps-action[data-action="fav"]') : null;
+            toggleFavorite(currentPhoto, gridFavBtn);
         });
     }
 
+    if (psLbShare) {
+        psLbShare.addEventListener('click', function() {
+            shareGallery();
+        });
+    }
+
+    // Click on image area (not buttons) — do nothing (prevent close)
+    if (psLbImg) {
+        psLbImg.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
-        if (!slideshow.classList.contains('open')) return;
-        if (e.key === 'Escape') closeSlideshow();
-        if (e.key === 'ArrowRight') nextSlide();
-        if (e.key === 'ArrowLeft') prevSlide();
+        if (!psLightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextPhoto();
+        if (e.key === 'ArrowLeft') prevPhoto();
     });
 
     // ═══════════════════════════════════════════════════════════════
     // TOOLBAR BUTTONS
     // ═══════════════════════════════════════════════════════════════
-    var downloadAllBtn = document.getElementById('downloadAllBtn');
-    var shareBtn = document.getElementById('shareBtn');
-    var slideshowBtn = document.getElementById('slideshowBtn');
-
-    if (downloadAllBtn) {
-        downloadAllBtn.addEventListener('click', function() {
-            // ─── FOR PRODUCTION ───
-            // Replace this with a server endpoint that provides a
-            // ZIP download of all full-resolution images, e.g.:
-            //   window.location.href = '/api/gallery/download?code=' + code;
-
-            alert('♡ In production, this would download all your photos as a ZIP file.\n\nFor now, click the ⬇ button on individual photos to download them one at a time.');
-        });
+    function shareGallery() {
+        var url = window.location.href;
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Photography Gallery',
+                text: 'Check out my photos from Jenna Lynn Photography!',
+                url: url
+            }).catch(function() {});
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function() {
+                alert('♡ Gallery link copied to clipboard!\n\nShare it with your family and friends.');
+            }).catch(function() {
+                prompt('Copy this link to share your gallery:', url);
+            });
+        } else {
+            prompt('Copy this link to share your gallery:', url);
+        }
     }
 
-    if (shareBtn) {
-        shareBtn.addEventListener('click', function() {
-            var url = window.location.href;
+    function downloadAll() {
+        alert('♡ In production, this would download all your photos as a ZIP file.\n\nFor now, click the ⬇ button on individual photos to download them one at a time.');
+    }
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'My Photography Gallery',
-                    text: 'Check out my photos from Grace & Lens Photography!',
-                    url: url
-                }).catch(function() {});
+    function startSlideshow() {
+        if (photos.length === 0) return;
+        currentPhoto = 0;
+        openLightbox();
+
+        // Auto-advance
+        var slideInterval = setInterval(function() {
+            if (!psLightbox.classList.contains('open')) {
+                clearInterval(slideInterval);
+                return;
+            }
+            nextPhoto();
+        }, 4000);
+    }
+
+    // Toolbar buttons
+    var psSlideshowBtn = document.getElementById('psSlideshowBtn');
+    var psShareBtn = document.getElementById('psShareBtn');
+    var psDownloadAllBtn = document.getElementById('psDownloadAllBtn');
+
+    // Nav buttons
+    var psFavBtn = document.getElementById('psFavBtn');
+    var psShareBtnTop = document.getElementById('psShareBtnTop');
+    var psSlideshowTopBtn = document.getElementById('psSlideshowTopBtn');
+    var psDownloadBtn = document.getElementById('psDownloadBtn');
+
+    if (psSlideshowBtn) psSlideshowBtn.addEventListener('click', startSlideshow);
+    if (psSlideshowTopBtn) psSlideshowTopBtn.addEventListener('click', startSlideshow);
+    if (psShareBtn) psShareBtn.addEventListener('click', shareGallery);
+    if (psShareBtnTop) psShareBtnTop.addEventListener('click', shareGallery);
+    if (psDownloadAllBtn) psDownloadAllBtn.addEventListener('click', downloadAll);
+    if (psDownloadBtn) psDownloadBtn.addEventListener('click', downloadAll);
+
+    if (psFavBtn) {
+        psFavBtn.addEventListener('click', function() {
+            // Show favorites count
+            var favCount = Object.keys(favorites).filter(function(k) { return favorites[k]; }).length;
+            if (favCount === 0) {
+                alert('♡ You haven\'t favorited any photos yet.\n\nClick the heart icon on any photo to save your favorites!');
             } else {
-                // Fallback: copy to clipboard
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(url).then(function() {
-                        alert('♡ Gallery link copied to clipboard!\n\nShare it with your family and friends.');
-                    }).catch(function() {
-                        prompt('Copy this link to share your gallery:', url);
-                    });
-                } else {
-                    prompt('Copy this link to share your gallery:', url);
-                }
+                alert('♡ You have ' + favCount + ' favorite photo' + (favCount > 1 ? 's' : '') + '!');
             }
         });
     }
 
-    if (slideshowBtn) {
-        slideshowBtn.addEventListener('click', function() {
-            if (galleryItems.length === 0) return;
-            currentSlide = 0;
-            showSlide();
-            openSlideshow();
-        });
-    }
-
-    // ─── Set download links on gallery items ───
-    document.querySelectorAll('.gallery-item').forEach(function(item) {
-        var fullSrc = item.getAttribute('data-full');
-        var downloadLink = item.querySelector('a[download]');
-        if (downloadLink && fullSrc) {
-            downloadLink.href = fullSrc;
+    // Set download links on grid items
+    document.querySelectorAll('.ps-photo').forEach(function(photo) {
+        var fullSrc = photo.getAttribute('data-full');
+        var dlLink = photo.querySelector('a[download]');
+        if (dlLink && fullSrc) {
+            dlLink.href = fullSrc;
         }
     });
 

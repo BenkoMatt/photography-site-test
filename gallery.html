@@ -13,25 +13,35 @@
 </head>
 <body class="gallery-page">
 
-<!-- ============ NAVIGATION ============ -->
-<nav class="navbar navbar-solid" id="navbar">
-    <div class="nav-inner">
-        <a href="index.html" class="logo">Jenna Lynn Photography</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Pricing</a></li>
-            <li><a href="index.html#portfolio">Gallery</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="index.html#contact" class="nav-cta">Let's Connect</a></li>
-        </ul>
+<!-- ============ GALLERY NAVBAR (Pixieset style) ============ -->
+<nav class="ps-nav" id="psNav">
+    <div class="ps-nav-inner">
+        <div class="ps-nav-left">
+            <a href="index.html" class="ps-business-name">Jenna Lynn Photography</a>
+        </div>
+        <div class="ps-nav-center">
+            <span class="ps-gallery-title" id="psGalleryTitle"></span>
+        </div>
+        <div class="ps-nav-right">
+            <button class="ps-nav-icon" id="psFavBtn" title="Favorites" aria-label="Favorites">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>
+            </button>
+            <button class="ps-nav-icon" id="psShareBtnTop" title="Share" aria-label="Share">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M8 8l4-4 4 4M20 14v6H4v-6"/></svg>
+            </button>
+            <button class="ps-nav-icon" id="psSlideshowTopBtn" title="Slideshow" aria-label="Slideshow">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z" fill="currentColor"/></svg>
+            </button>
+            <button class="ps-nav-icon" id="psDownloadBtn" title="Download All" aria-label="Download">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4v12M8 12l4 4 4-4M4 20h16"/></svg>
+            </button>
+        </div>
     </div>
 </nav>
 
 <!-- ============ GALLERY PAGE ============ -->
 <main class="client-gallery-page">
+
     <!-- Password Gate -->
     <div class="gallery-gate" id="galleryGate">
         <div class="gate-card">
@@ -54,132 +64,171 @@
 
     <!-- Gallery Content (hidden until passcode entered) -->
     <div class="gallery-content hidden" id="galleryContent">
-        <div class="container">
-            <div class="gallery-header">
-                <h1 id="galleryTitle">Your Beautiful Gallery</h1>
-                <p class="gallery-date" id="galleryDate"></p>
-                <p class="gallery-description">
-                    Welcome to your private gallery! Here you can view all your edited photos,
-                    share them with family and friends, and download your favorites.
-                    Every image was edited with love and prayer. 💕
-                </p>
-            </div>
 
-            <div class="gallery-toolbar">
-                <div class="gallery-actions">
-                    <button class="btn btn-soft btn-small" id="downloadAllBtn">⬇ Download All</button>
-                    <button class="btn btn-soft btn-small" id="shareBtn">♡ Share Gallery</button>
-                    <button class="btn btn-soft btn-small" id="slideshowBtn">▶ Slideshow</button>
-                </div>
-                <div class="gallery-info-text">
-                    <span id="photoCount">0</span> photos &middot; Click any photo to view full size
+        <!-- Cover Image (Pixieset style — full screen with title overlay) -->
+        <div class="ps-cover" id="psCover">
+            <div class="ps-cover-overlay"></div>
+            <div class="ps-cover-frame">
+                <div class="ps-cover-content">
+                    <h1 class="ps-cover-title" id="psCoverTitle">Your Gallery</h1>
+                    <p class="ps-cover-date" id="psCoverDate"></p>
+                    <button class="ps-cover-scroll" id="psCoverScroll" aria-label="Enter gallery">
+                        <span>Enter Gallery</span>
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class="gallery-grid" id="galleryGrid">
-                <!--
-                    ════════════════════════════════════════════════════════════════
-                    DEMO GALLERY PHOTOS — Currently showing example photos
-                    from the portfolio for demonstration purposes.
-
-                    TO SET UP A REAL CLIENT GALLERY:
-                    1. Put the client's edited photos in photos/client-photos/
-                    2. Replace each <img> below with:
-                       <img src="photos/client-photos/clientname-01.jpg" alt="Description" loading="lazy">
-                    3. Update the data-full and download href to match
-                    4. Add/remove .gallery-item blocks as needed
-                    ════════════════════════════════════════════════════════════════
-                -->
-                <div class="gallery-item" data-full="photos/gallery/portraits/matt-grad.jpeg">
-                    <img src="photos/gallery/portraits/matt-grad.jpeg" alt="Graduation portrait" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/gallery/portraits/matt-grad.jpeg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/gallery/couples/JennaLynnPhotography-641.jpg">
-                    <img src="photos/gallery/couples/JennaLynnPhotography-641.jpg" alt="Couples session" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/gallery/couples/JennaLynnPhotography-641.jpg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/gallery/weddings/tate-and-friends-running.jpg">
-                    <img src="photos/gallery/weddings/tate-and-friends-running.jpg" alt="Wedding celebration" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/gallery/weddings/tate-and-friends-running.jpg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg">
-                    <img src="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg" alt="Engagement session" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg">
-                    <img src="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg" alt="Portrait session" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/pricing/matt-and-jenna-couples-card.jpg">
-                    <img src="photos/pricing/matt-and-jenna-couples-card.jpg" alt="Couples photo" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/pricing/matt-and-jenna-couples-card.jpg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/pricing/jesse-and-sam-engagement-card.jpeg">
-                    <img src="photos/pricing/jesse-and-sam-engagement-card.jpeg" alt="Engagement photo" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/pricing/jesse-and-sam-engagement-card.jpeg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/pricing/gracie-and-isaiah-wedding-card.jpeg">
-                    <img src="photos/pricing/gracie-and-isaiah-wedding-card.jpeg" alt="Wedding photo" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/pricing/gracie-and-isaiah-wedding-card.jpeg">⬇</a>
-                    </div>
-                </div>
-                <div class="gallery-item" data-full="photos/about/jenna-portrait.jpg">
-                    <img src="photos/about/jenna-portrait.jpg" alt="Portrait" loading="lazy">
-                    <div class="gallery-item-actions">
-                        <button class="gallery-action" title="Favorite">♡</button>
-                        <a class="gallery-action" title="Download" download href="photos/about/jenna-portrait.jpg">⬇</a>
-                    </div>
+        <!-- Photo count + toolbar -->
+        <div class="ps-toolbar" id="psToolbar">
+            <div class="ps-toolbar-inner">
+                <span class="ps-photo-count"><span id="photoCount">0</span> photos</span>
+                <div class="ps-toolbar-actions">
+                    <button class="ps-toolbar-btn" id="psSlideshowBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z" fill="currentColor"/></svg>
+                        Slideshow
+                    </button>
+                    <button class="ps-toolbar-btn" id="psShareBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M8 8l4-4 4 4M20 14v6H4v-6"/></svg>
+                        Share
+                    </button>
+                    <button class="ps-toolbar-btn" id="psDownloadAllBtn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4v12M8 12l4 4 4-4M4 20h16"/></svg>
+                        Download All
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class="gallery-footer-note">
-                <p>
-                    <span class="verse-mark">&ldquo;</span>
-                    Thank you for trusting me with your love story. These photos are yours to cherish,
-                    share, and print forever. If you need any help or want to order prints, don't
-                    hesitate to reach out!
-                    <span class="verse-mark">&rdquo;</span>
-                </p>
-                <p class="gallery-contact-note">
-                    <a href="index.html#contact" class="btn btn-outline">Contact Me</a>
-                    <a href="index.html" class="btn btn-soft">Back to Home</a>
-                </p>
+        <!-- Masonry Photo Grid (Pixieset style — natural aspect ratios) -->
+        <div class="ps-masonry" id="galleryGrid">
+            <!--
+                ════════════════════════════════════════════════════════════════
+                DEMO GALLERY PHOTOS — Currently showing example photos
+                from the portfolio for demonstration purposes.
+
+                TO SET UP A REAL CLIENT GALLERY:
+                1. Put the client's edited photos in photos/client-photos/
+                2. Replace each <img> below with:
+                   <img src="photos/client-photos/clientname-01.jpg" alt="Description" loading="lazy">
+                3. Update the data-full and download href to match
+                4. Add/remove .ps-photo blocks as needed
+                ════════════════════════════════════════════════════════════════
+            -->
+            <div class="ps-photo" data-full="photos/gallery/portraits/matt-grad.jpeg" data-w="918" data-h="1224">
+                <img src="photos/gallery/portraits/matt-grad.jpeg" alt="Graduation portrait" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/gallery/portraits/matt-grad.jpeg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/gallery/couples/JennaLynnPhotography-641.jpg" data-w="2912" data-h="2048">
+                <img src="photos/gallery/couples/JennaLynnPhotography-641.jpg" alt="Couples session" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/gallery/couples/JennaLynnPhotography-641.jpg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/gallery/weddings/tate-and-friends-running.jpg" data-w="1333" data-h="2000">
+                <img src="photos/gallery/weddings/tate-and-friends-running.jpg" alt="Wedding celebration" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/gallery/weddings/tate-and-friends-running.jpg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg" data-w="1244" data-h="1737">
+                <img src="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg" alt="Engagement session" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg" data-w="1450" data-h="1933">
+                <img src="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg" alt="Portrait session" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/gallery/portraits/slyvie-bear-portrait-2.jpeg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/pricing/matt-and-jenna-couples-card.jpg" data-w="1200" data-h="1500">
+                <img src="photos/pricing/matt-and-jenna-couples-card.jpg" alt="Couples photo" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/pricing/matt-and-jenna-couples-card.jpg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/pricing/jesse-and-sam-engagement-card.jpeg" data-w="1638" data-h="2048">
+                <img src="photos/pricing/jesse-and-sam-engagement-card.jpeg" alt="Engagement photo" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/pricing/jesse-and-sam-engagement-card.jpeg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/pricing/gracie-and-isaiah-wedding-card.jpeg" data-w="2065" data-h="2581">
+                <img src="photos/pricing/gracie-and-isaiah-wedding-card.jpeg" alt="Wedding photo" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/pricing/gracie-and-isaiah-wedding-card.jpeg">⬇</a>
+                </div>
+            </div>
+            <div class="ps-photo" data-full="photos/about/jenna-portrait.jpg" data-w="2571" data-h="3600">
+                <img src="photos/about/jenna-portrait.jpg" alt="Portrait" loading="lazy">
+                <div class="ps-photo-actions">
+                    <button class="ps-action" title="Favorite" data-action="fav">♡</button>
+                    <a class="ps-action" title="Download" download href="photos/about/jenna-portrait.jpg">⬇</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery footer -->
+        <div class="ps-gallery-footer">
+            <div class="ps-footer-divider"></div>
+            <p class="ps-footer-message">
+                Thank you for trusting me with your love story. 💕<br>
+                These photos are yours to cherish, share, and print forever.
+            </p>
+            <p class="ps-footer-verse">
+                <em>"Commit to the Lord whatever you do." — Proverbs 16:3</em>
+            </p>
+            <div class="ps-footer-actions">
+                <a href="index.html#contact" class="ps-footer-link">Contact Jenna</a>
+                <span class="ps-footer-dot">·</span>
+                <a href="index.html" class="ps-footer-link">Back to Home</a>
             </div>
         </div>
     </div>
 
-    <!-- Slideshow overlay -->
-    <div class="slideshow" id="slideshow" aria-hidden="true">
-        <button class="lightbox-close" id="slideshowClose" aria-label="Close">&times;</button>
-        <button class="lightbox-prev" id="slideshowPrev" aria-label="Previous">‹</button>
-        <button class="lightbox-next" id="slideshowNext" aria-label="Next">›</button>
-        <div class="slideshow-content" id="slideshowContent">
-            <img id="slideshowImg" src="" alt="">
+    <!-- PhotoSwipe-style Lightbox -->
+    <div class="ps-lightbox" id="psLightbox" aria-hidden="true">
+        <div class="ps-lb-topbar">
+            <span class="ps-lb-counter" id="psLbCounter">1 / 9</span>
+            <div class="ps-lb-actions">
+                <button class="ps-lb-btn" id="psLbFav" title="Favorite">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>
+                </button>
+                <button class="ps-lb-btn" id="psLbShare" title="Share">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 16V4M8 8l4-4 4 4M20 14v6H4v-6"/></svg>
+                </button>
+                <button class="ps-lb-btn" id="psLbDownload" title="Download">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4v12M8 12l4 4 4-4M4 20h16"/></svg>
+                </button>
+                <button class="ps-lb-btn ps-lb-close" id="psLbClose" title="Close">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+            </div>
+        </div>
+        <button class="ps-lb-prev" id="psLbPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="ps-lb-next" id="psLbNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="ps-lb-image-wrap" id="psLbImageWrap">
+            <img id="psLbImg" src="" alt="">
         </div>
     </div>
+
 </main>
 
 <script src="js/gallery.js"></script>
