@@ -235,14 +235,14 @@
             //     .catch(function(err) { show error });
             // ─────────────────────────────────────────────────────────
 
-            // Show success message
+            // Show success message (matches Jenna's style)
             formSuccess.classList.add('show');
             contactForm.reset();
 
-            // Hide success after 5 seconds
+            // Hide success after 6 seconds
             setTimeout(function() {
                 formSuccess.classList.remove('show');
-            }, 5000);
+            }, 6000);
 
             // Scroll to success message
             formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -281,6 +281,8 @@
         'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024' },
         'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024' },
         'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024' }
+        // Add your client passcodes here, e.g.:
+        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025' }
     };
 
     var galleryLoginForm = document.getElementById('galleryLoginForm');

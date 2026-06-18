@@ -56,6 +56,8 @@
         'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024' },
         'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024' },
         'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024' }
+        // Add your client passcodes here, e.g.:
+        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025' }
     };
 
     // ═══════════════════════════════════════════════════════════════
