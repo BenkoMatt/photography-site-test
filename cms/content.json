@@ -159,6 +159,12 @@
         "alt": "Wedding party tunnel",
         "category": "wedding",
         "tall": true
+      },
+      {
+        "src": "photos/gallery/portraits/Tate_Friend_Portrait.JPG",
+        "alt": "Tate and friend portrait",
+        "category": "portrait",
+        "tall": true
       }
     ]
   },
