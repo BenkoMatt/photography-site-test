@@ -45,16 +45,32 @@
     "subtitle": "Every love story is unique — your photos should be too. Choose the experience that fits your season.",
     "packages": [
       {
-        "name": "Couples Session",
-        "price": "600",
+        "name": "Portraits",
+        "price": "100",
         "price_prefix": "$",
         "price_suffix": "",
-        "tagline": "For the lovebirds who just want beautiful photos together",
+        "tagline": "Beautiful, natural portraits — just you, being you",
         "image": "photos/pricing/matt-and-jenna-couples-card.jpg",
+        "features": [
+          "45-minute on-location session",
+          "25+ fully edited high-res images",
+          "Private online gallery",
+          "Print release"
+        ],
+        "button_text": "Inquire",
+        "featured": false
+      },
+      {
+        "name": "Couples/Engagement",
+        "price": "150",
+        "price_prefix": "$",
+        "price_suffix": "",
+        "tagline": "Celebrate your love story — from first date to the big question",
+        "image": "photos/pricing/jesse-and-sam-engagement-card.jpeg",
         "features": [
           "90-minute on-location session",
           "50+ fully edited high-res images",
-          "Outfit change included",
+          "Up to 2 outfit changes",
           "Private online gallery",
           "Print release",
           "\"What to Wear\" style guide"
@@ -63,38 +79,16 @@
         "featured": false
       },
       {
-        "name": "Engagement Session",
-        "price": "800",
+        "name": "Wedding",
+        "price": "650",
         "price_prefix": "$",
         "price_suffix": "",
-        "tagline": "Celebrate the yes that changed everything",
-        "image": "photos/pricing/jesse-and-sam-engagement-card.jpeg",
-        "features": [
-          "2-hour on-location session",
-          "75+ fully edited high-res images",
-          "Up to 2 outfit changes",
-          "Multiple locations",
-          "Private online gallery",
-          "Print release & \"What to Wear\" guide",
-          "Pre-session questionnaire & planning call",
-          "Local Michigan location scouting included"
-        ],
-        "button_text": "Inquire",
-        "featured": false
-      },
-      {
-        "name": "Wedding Collection",
-        "price": "2800",
-        "price_prefix": "Starting at $",
-        "price_suffix": "",
-        "tagline": "Your entire love story — from getting ready to the last dance",
+        "tagline": "Your wedding day, beautifully captured from start to finish",
         "image": "photos/pricing/G_I_WedParty_Cross_Kiss.jpeg",
         "object_position": "63% 38%",
         "features": [
-          "8 hours of wedding day coverage",
-          "400+ fully edited high-res images",
-          "Second photographer included",
-          "Engagement session included",
+          "6 hours of wedding day coverage",
+          "300+ fully edited high-res images",
           "Private online gallery",
           "Print release",
           "Detailed timeline planning"
