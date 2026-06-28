@@ -1,24 +1,25 @@
 /* ═══════════════════════════════════════════════════════════════
    JENNA LYNN PHOTOGRAPHY — Wedding & Couples Photography
-   Theme: Bright · Airy · Feminine · Christian warmth
-   Palette: Rose Pink (#c4758a) · Soft Cream · White · Sage accents
+   Theme: Light & Airy · Timeless · Natural · Christian warmth
+   Palette: Cascade Green (#acb19f) · Halcyon Green (#9baaa2) · Snowbound (#edeae5) · Pure White (#edece6)
+   Sherwin-Williams Light & Airy palette
    Fonts: Cormorant Garamond (serif) + Montserrat (sans)
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── Design Tokens ─── */
 :root {
-    /* Colors — matching photographybyjennalynn.com */
-    --rose: #c4758a;
-    --rose-deep: #a85a70;
-    --rose-soft: #b0899e;
-    --rose-light: #fdf2f4;
+    /* Colors — Light & Airy palette (Sherwin-Williams) */
+    --rose: #acb19f;
+    --rose-deep: #9baaa2;
+    --rose-soft: #c2bdb1;
+    --rose-light: #edeae5;
 
-    --sage: #a8c4a2;
-    --sage-deep: #7a9b74;
-    --sage-soft: #f0f7f4;
+    --sage: #acb19f;
+    --sage-deep: #9baaa2;
+    --sage-soft: #edeae5;
 
-    --cream: #fef9f0;
-    --cream-deep: #fafafa;
+    --cream: #edeae5;
+    --cream-deep: #edece6;
     --ivory: #ffffff;
 
     --charcoal: #2c2c2c;

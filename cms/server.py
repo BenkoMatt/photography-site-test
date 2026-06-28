@@ -66,9 +66,9 @@ def build_theme_css(c):
     """Generate dynamic CSS from theme settings"""
     t = c.get("theme", {})
 
-    accent = t.get("accent_color", "#c4758a")
-    accent_hover = t.get("accent_color_hover", "#a85a70")
-    accent_light = t.get("accent_color_light", "#fdf2f4")
+    accent = t.get("accent_color", "#acb19f")
+    accent_hover = t.get("accent_color_hover", "#9baaa2")
+    accent_light = t.get("accent_color_light", "#edeae5")
     text_color = t.get("text_color", "#2c2c2c")
     text_secondary = t.get("text_color_secondary", "#555555")
     bg_color = t.get("background_color", "#ffffff")
@@ -111,9 +111,9 @@ def build_theme_css(c):
     # Hero background
     hero_type = t.get("hero_type", "gradient")
     if hero_type == "gradient":
-        g1 = t.get("hero_gradient_start", "#fdf2f4")
-        g2 = t.get("hero_gradient_mid", "#fef9f0")
-        g3 = t.get("hero_gradient_end", "#f0f7f4")
+        g1 = t.get("hero_gradient_start", "#edeae5")
+        g2 = t.get("hero_gradient_mid", "#edece6")
+        g3 = t.get("hero_gradient_end", "#acb19f")
         css += f".hero {{ background: linear-gradient(135deg, {g1} 0%, {g2} 50%, {g3} 100%); }}\n"
         css += f".hero-title, .hero-tag, .hero-sub {{ color: {t.get('hero_text_color', '#2c2c2c')}; }}\n"
     elif hero_type == "image":
@@ -124,7 +124,7 @@ def build_theme_css(c):
             css += f".hero-overlay {{ background: rgba(0,0,0,{opacity}); }}\n"
             css += f".hero-title, .hero-tag, .hero-sub {{ color: #fff; }}\n"
     elif hero_type == "solid":
-        css += f".hero {{ background: {t.get('hero_gradient_start', '#fdf2f4')}; }}\n"
+        css += f".hero {{ background: {t.get('hero_gradient_start', '#edeae5')}; }}\n"
         css += f".hero-title, .hero-tag, .hero-sub {{ color: {t.get('hero_text_color', '#2c2c2c')}; }}\n"
 
     # Mobile overrides
