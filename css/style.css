@@ -320,7 +320,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     width: max-content;
     gap: 0;
-    animation: heroScroll 160s linear infinite;
+    animation: heroScroll 240s linear infinite;
 }
 
 .hero-scroller-track img {
@@ -340,7 +340,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.45) 100%);
+    background: rgba(255,255,255,0.5);
     z-index: 1;
 }
 
