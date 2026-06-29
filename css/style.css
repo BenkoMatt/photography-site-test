@@ -318,6 +318,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero-scroller-track {
     display: flex;
     height: 100%;
+    width: max-content;
     gap: 0;
     animation: heroScroll 80s linear infinite;
 }
