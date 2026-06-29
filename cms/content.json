@@ -49,51 +49,46 @@
         "price": "100",
         "price_prefix": "$",
         "price_suffix": "",
-        "tagline": "Beautiful, natural portraits — just you, being you",
+        "tagline": "",
         "image": "photos/pricing/Tate_Friend_Portrait_Service.JPG",
         "features": [
-          "45-minute on-location session",
-          "25+ fully edited high-res images",
-          "Private online gallery",
-          "Print release"
+          "1 location",
+          "1 outfit",
+          "1 hour of shooting",
+          "50+ edited online gallery"
         ],
-        "button_text": "Inquire",
+        "button_text": "",
         "featured": false
       },
       {
-        "name": "Couples/Engagement",
+        "name": "Couples",
         "price": "150",
         "price_prefix": "$",
         "price_suffix": "",
-        "tagline": "Celebrate your love story — from first date to the big question",
+        "tagline": "",
         "image": "photos/pricing/jesse-and-sam-engagement-card.jpeg",
         "features": [
-          "90-minute on-location session",
-          "50+ fully edited high-res images",
-          "Up to 2 outfit changes",
-          "Private online gallery",
-          "Print release",
-          "\"What to Wear\" style guide"
+          "1 location",
+          "1 hour of shooting",
+          "75+ edited online gallery"
         ],
-        "button_text": "Inquire",
+        "button_text": "",
         "featured": false
       },
       {
-        "name": "Wedding",
+        "name": "Weddings",
         "price": "650",
         "price_prefix": "$",
         "price_suffix": "",
-        "tagline": "Your wedding day, beautifully captured from start to finish",
+        "tagline": "",
         "image": "photos/pricing/G_I_WedParty_Cross_Kiss.jpeg",
         "object_position": "63% 38%",
         "features": [
-          "6 hours of wedding day coverage",
-          "300+ fully edited high-res images",
-          "Private online gallery",
-          "Print release",
-          "Detailed timeline planning"
+          "All day coverage",
+          "40+ sneak peek 1-2 week(s) after the wedding date",
+          "300+ edited online wedding gallery"
         ],
-        "button_text": "Inquire",
+        "button_text": "",
         "featured": true
       }
     ],
