@@ -1848,6 +1848,14 @@ h1, h2, h3, h4, h5, h6 {
         gap: 20px;
     }
 
+    /* Fix hero scroller zoom on mobile — use fixed width instead of auto-scaling */
+    .hero-scroller-track img {
+        width: 300px;
+        height: 100%;
+        object-fit: cover;
+    }
+    .hero-content { padding: 40px 24px; }
+
     /* About: stack image above text on mobile */
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
     .about-image { max-width: 400px; margin: 0 auto; order: -1; }
