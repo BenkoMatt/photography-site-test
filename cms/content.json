@@ -35,7 +35,7 @@
       "Proudly Michigan-made. I was born and raised in the Great Lakes State, and there's nowhere I'd rather build my business. Michigan gives us four breathtaking seasons, endless lakeshore backdrops, and sunsets that paint the sky over Lake Michigan in ways that make my camera weep with joy. Whether we're shooting among the dunes of Sleeping Bear, beneath a canopy of autumn maples, or in a cozy downtown café in Grand Rapids — this state is part of your story, and I wouldn't have it any other way.",
       "Every love story is a gift from above — and it's my joy to help you tell yours. Based in Michigan — available for travel worldwide."
     ],
-    "portrait_image": "photos/about/jenna-portrait-new.jpg",
+    "portrait_image": "photos/about/jenna-portrait.jpg",
     "button_text": "Let's Get to Know Each Other",
     "button_link": "#contact"
   },
@@ -333,10 +333,10 @@
         "h": 3600
       },
       {
-        "src": "photos/about/jenna-portrait-new.jpg",
+        "src": "photos/about/jenna-portrait.jpg",
         "alt": "Portrait",
-        "w": 1080,
-        "h": 1221
+        "w": 2571,
+        "h": 3600
       }
     ]
   },
