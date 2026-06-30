@@ -238,11 +238,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .logo {
+    display: flex;
+    align-items: baseline;
+    text-decoration: none;
+    line-height: 1;
+}
+.logo-jenna {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.4rem;
     color: var(--charcoal);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+.logo-lynn {
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    margin-left: 0.1em;
+    line-height: 0.8;
 }
 
 .nav-links {
@@ -1083,6 +1098,27 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--ivory);
     margin-bottom: 12px;
 }
+.footer-logo-wordmark {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 12px;
+}
+.footer-logo-jenna {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 1.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ivory);
+}
+.footer-logo-lynn {
+    font-family: 'Tangerine', cursive;
+    font-weight: 700;
+    font-size: 2.6rem;
+    color: var(--ivory);
+    margin-left: 0.1em;
+    line-height: 0.8;
+}
 
 .footer-tagline {
     font-size: 0.9rem;
@@ -1256,11 +1292,10 @@ h1, h2, h3, h4, h5, h6 {
 .ps-nav-right { flex: 1; display: flex; justify-content: flex-end; gap: 4px; }
 
 .ps-business-name {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--charcoal);
-    letter-spacing: 0.02em;
+    display: flex;
+    align-items: baseline;
+    text-decoration: none;
+    line-height: 1;
 }
 
 .ps-gallery-title {
@@ -1824,6 +1859,8 @@ h1, h2, h3, h4, h5, h6 {
     :root { --section-pad: 80px 0; }
 
     .nav-toggle { display: flex; }
+    .logo-jenna { font-size: 1.2rem; }
+    .logo-lynn { font-size: 1.9rem; }
     .nav-links {
         position: absolute;
         top: 72px;

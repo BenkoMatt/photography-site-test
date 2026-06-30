@@ -286,7 +286,7 @@ def build_index_html(c):
     <meta property="og:image" content="{esc(about["portrait_image"])}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>{build_theme_css(c)}</style>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
@@ -296,7 +296,7 @@ def build_index_html(c):
 <!-- ============ NAVIGATION ============ -->
 <nav class="navbar" id="navbar">
     <div class="nav-inner">
-        <a href="#top" class="logo">{esc(site["business_name"])}</a>
+        <a href="#top" class="logo"><span class="logo-jenna">JENNA</span> <span class="logo-lynn">Lynn</span></a>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
             <span></span><span></span><span></span>
         </button>
@@ -551,7 +551,7 @@ def build_index_html(c):
     <div class="container">
         <div class="footer-grid">
             <div class="footer-col footer-brand">
-                <h3>{esc(site["business_name"])}</h3>
+                <div class="footer-logo-wordmark"><span class="logo-jenna footer-logo-jenna">JENNA</span> <span class="logo-lynn footer-logo-lynn">Lynn</span></div>
                 <p class="footer-tagline">{esc(site["tagline"])}<br>{esc(site["location"])}</p>
             </div>
             <div class="footer-col">
@@ -633,7 +633,7 @@ def build_gallery_html(c):
     <title>Client Gallery — {esc(site["business_name"])}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>{build_theme_css(c)}</style>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
