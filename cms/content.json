@@ -41,8 +41,8 @@
   },
   "services": {
     "label": "Pricing",
-    "title": "",
-    "subtitle": "Choose the experience that fits your season.",
+    "title": "Choose the experience that fits your season.",
+    "subtitle": "",
     "packages": [
       {
         "name": "Portraits",
