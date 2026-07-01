@@ -323,6 +323,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -345,6 +346,7 @@ h1, h2, h3, h4, h5, h6 {
     width: max-content;
     gap: 0;
     animation: heroScroll 240s linear infinite;
+    will-change: transform;
 }
 
 .hero-scroller-track img {
@@ -1904,10 +1906,16 @@ h1, h2, h3, h4, h5, h6 {
         gap: 20px;
     }
 
-    /* Fix hero scroller zoom on mobile — use fixed width instead of auto-scaling */
+    /* Fix hero scroller zoom on mobile — use dvh to prevent browser chrome jitter */
+    .hero {
+        min-height: 100dvh;
+    }
+    .hero-scroller {
+        height: 100dvh;
+    }
     .hero-scroller-track img {
         width: 300px;
-        height: 100%;
+        height: 100dvh;
         object-fit: cover;
     }
     .hero-content { padding: 40px 24px; }
