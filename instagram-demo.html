@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Feed Demo v3 — Jenna Lynn Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ─── Theme Tokens (matching live site exactly) ─── */
+        :root {
+            --rose: #acb19f;
+            --rose-deep: #9baaa2;
+            --rose-soft: #c2bdb1;
+            --rose-light: #edeae5;
+            --cream: #edeae5;
+            --cream-deep: #edece6;
+            --ivory: #ffffff;
+            --charcoal: #2c2c2c;
+            --gray: #555;
+            --gray-light: #888;
+            --gray-faint: #aaa;
+            --border: #e8e8e8;
+            --border-light: #ddd;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', -apple-system, sans-serif;
+            --radius: 4px;
+            --transition: all 0.3s ease;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #ffffff;
+            color: var(--charcoal);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+        }
+
+        /* ─── Demo Banner ─── */
+        .demo-banner {
+            background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+            color: white;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── Section ─── */
+        .instagram-section {
+            padding: 100px 0 80px;
+            background: var(--ivory);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ─── Section Header ─── */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--rose-deep);
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .section-sub {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ─── Profile badge (handle + avatar circle) ─── */
+        .ig-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .ig-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--rose-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--rose-deep);
+            border: 2px solid var(--rose-soft);
+            flex-shrink: 0;
+        }
+
+        .ig-handle {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: var(--transition);
+        }
+
+        .ig-handle:hover {
+            color: var(--rose-deep);
+        }
+
+        .ig-handle .at {
+            color: var(--rose-deep);
+            font-weight: 400;
+        }
+
+        /* ─── Photo grid ─── */
+        .ig-strip-wrap {
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .ig-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .ig-post {
+            position: relative;
+            display: block;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--rose-light);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .ig-post img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, filter 0.3s ease;
+        }
+
+        .ig-post:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.7);
+        }
+
+        /* ─── Hover overlay ─── */
+        .ig-post-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: linear-gradient(135deg, rgba(172,177,159,0.35), rgba(44,44,44,0.4));
+        }
+
+        .ig-post:hover .ig-post-overlay {
+            opacity: 1;
+        }
+
+        .ig-post-stats {
+            display: flex;
+            gap: 16px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .ig-post-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .ig-post-caption {
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 400;
+            text-align: center;
+            padding: 0 10px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            max-height: 2.4em;
+            overflow: hidden;
+            line-height: 1.2;
+        }
+
+        /* ─── Video/Reel badge ─── */
+        .ig-post-type-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: white;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+            z-index: 1;
+        }
+
+        /* ─── Follow bar ─── */
+        .ig-follow-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .ig-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-light);
+        }
+
+        .ig-meta-text {
+            font-size: 0.82rem;
+            color: var(--gray-light);
+            letter-spacing: 0.3px;
+        }
+
+        .ig-meta-text strong {
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+
+        /* ─── Follow button ─── */
+        .ig-follow-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 36px;
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            text-decoration: none;
+            border: 1.5px solid var(--rose-deep);
+            border-radius: 0px;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+        }
+
+        .ig-follow-btn:hover {
+            background: var(--rose-deep);
+            color: white;
+        }
+
+        .ig-follow-btn .heart {
+            font-size: 1rem;
+        }
+
+        /* ─── Loading/error states ─── */
+        .ig-loading,
+        .ig-error {
+            grid-column: 1 / -1;
+            padding: 3rem 1rem;
+            color: var(--gray-light);
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .ig-error a {
+            color: var(--rose-deep);
+            text-decoration: underline;
+        }
+
+        /* ─── Mobile ─── */
+        @media (max-width: 768px) {
+            .ig-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 4px;
+            }
+            .section-title { font-size: 2rem; }
+            .instagram-section { padding: 60px 0 50px; }
+            .ig-follow-bar { gap: 16px; }
+            .ig-divider { display: none; }
+            .ig-strip-wrap { max-width: 400px; }
+        }
+
+        @media (max-width: 480px) {
+            .ig-strip-wrap { max-width: 100%; padding: 0 16px; }
+            .ig-profile { gap: 10px; }
+            .ig-avatar { width: 40px; height: 40px; font-size: 1.1rem; }
+            .ig-handle { font-size: 0.95rem; }
+        }
+
+        /* ─── Footer note ─── */
+        .demo-footer {
+            text-align: center;
+            padding: 30px 20px 50px;
+            color: var(--gray-light);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo-banner">
+    🔍 DEMO v3 — Professional Instagram feed layout
+</div>
+
+<!-- ============ INSTAGRAM FEED SECTION ============ -->
+<section class="instagram-section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-label">Instagram</p>
+            <h2 class="section-title">Follow Along</h2>
+            <p class="section-sub">Catch the latest sessions, behind-the-scenes moments, and love stories as they unfold.</p>
+        </div>
+
+        <!-- Profile badge -->
+        <div class="ig-profile">
+            <div class="ig-avatar">♡</div>
+            <a href="https://instagram.com/photographybyjennalynn_" class="ig-handle" target="_blank" rel="noopener">
+                <span class="at">@</span>photographybyjennalynn_
+            </a>
+        </div>
+    </div>
+
+    <!-- Full-width photo strip (breaks out of container) -->
+    <div class="ig-strip-wrap">
+        <div id="instagram-feed" class="ig-grid">
+            <p class="ig-loading">Loading Instagram feed…</p>
+        </div>
+    </div>
+
+    <!-- Follow bar -->
+    <div class="container">
+        <div class="ig-follow-bar">
+            <span class="ig-meta-text"><strong>9</strong> recent posts</span>
+            <div class="ig-divider"></div>
+            <span class="ig-meta-text">Updated automatically</span>
+            <div class="ig-divider"></div>
+            <a href="https://instagram.com/photographybyjennalynn_" class="ig-follow-btn" target="_blank" rel="noopener">
+                <span class="heart">♡</span>
+                Follow on Instagram
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="demo-footer">
+    This demo uses placeholder photography images. The live version will pull Jenna's actual Instagram posts automatically via the Graph API.
+</div>
+
+<script>
+// ─── Mock data simulating Graph API response ───
+const mockPosts = [
+    {
+        permalink: 'https://instagram.com/p/demo1/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80',
+        caption: 'Beautiful wedding day moments ✨ #weddingphotography',
+        like_count: 142,
+        comments_count: 8
+    },
+    {
+        permalink: 'https://instagram.com/p/demo2/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80',
+        caption: 'Golden hour engagement session 🌅 #engagement #michigan',
+        like_count: 89,
+        comments_count: 5
+    },
+    {
+        permalink: 'https://instagram.com/p/demo3/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&q=80',
+        caption: 'Couples in the city 💕 #couplesession #grandrapidsmi',
+        like_count: 67,
+        comments_count: 3
+    },
+    {
+        permalink: 'https://instagram.com/p/demo4/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80',
+        caption: 'She said yes! 💍 #engaged #proposal',
+        like_count: 203,
+        comments_count: 15
+    },
+    {
+        permalink: 'https://instagram.com/p/demo5/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80',
+        caption: 'Bridal portraits in the golden light 👰 #bride #bridalportraits',
+        like_count: 156,
+        comments_count: 9
+    },
+    {
+        permalink: 'https://instagram.com/p/demo6/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1583935356474-7a33d3a3a3a0?w=400&q=80',
+        caption: 'Senior portraits that shine ✨ #seniorportraits #classof2026',
+        like_count: 94,
+        comments_count: 6
+    },
+    {
+        permalink: 'https://instagram.com/p/demo7/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&q=80',
+        caption: 'Wedding party fun! 🎉 #weddingparty',
+        like_count: 178,
+        comments_count: 11
+    },
+    {
+        permalink: 'https://instagram.com/p/demo8/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80',
+        caption: 'The first look — pure joy 😭 #firstlook #weddingday',
+        like_count: 231,
+        comments_count: 18
+    },
+    {
+        permalink: 'https://instagram.com/p/demo9/',
+        media_type: 'IMAGE',
+        media_url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80',
+        caption: 'Lake Michigan sunsets 🌅 #michigan #lakemichigan',
+        like_count: 112,
+        comments_count: 7
+    }
+];
+
+// ─── Render function ───
+function renderFeed(posts) {
+    const container = document.getElementById('instagram-feed');
+
+    if (!posts || posts.length === 0) {
+        container.innerHTML = '<p class="ig-error">Unable to load Instagram feed. <a href="https://instagram.com/photographybyjennalynn_">Visit our Instagram</a></p>';
+        return;
+    }
+
+    container.innerHTML = posts.map(function(post) {
+        var imgSrc = post.media_type === 'VIDEO'
+            ? post.thumbnail_url
+            : post.media_url;
+        var caption = (post.caption || '').substring(0, 80);
+        var isVideo = post.media_type === 'VIDEO';
+
+        return '<a href="' + post.permalink + '" class="ig-post" target="_blank" rel="noopener" title="' + caption.replace(/"/g, '&quot;') + '">' +
+            '<img src="' + imgSrc + '" alt="' + caption.replace(/"/g, '&quot;') + '" loading="lazy" />' +
+            (isVideo ? '<span class="ig-post-type-badge">▶</span>' : '') +
+            '<div class="ig-post-overlay">' +
+                '<div class="ig-post-stats">' +
+                    '<span>♥ ' + (post.like_count || 0) + '</span>' +
+                    '<span>💬 ' + (post.comments_count || 0) + '</span>' +
+                '</div>' +
+                '<div class="ig-post-caption">' + caption + '</div>' +
+            '</div>' +
+        '</a>';
+    }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderFeed(mockPosts);
+});
+</script>
+
+</body>
+</html>
