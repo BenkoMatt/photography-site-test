@@ -509,25 +509,31 @@
                     <!-- Formspree: honeypot spam trap (hidden from humans, bots fill it in) -->
                     <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
                         style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+                    <div class="form-field">
+                        <label for="name">First & Last Name(s)</label>
+                        <input type="text" id="name" name="name" placeholder="Your first and last name(s)" required>
+                    </div>
                     <div class="form-row">
                         <div class="form-field">
-                            <label for="name">Your Name(s)</label>
-                            <input type="text" id="name" name="name" placeholder="Both your names!" required>
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="you@email.com" required>
                         </div>
                         <div class="form-field">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
                         </div>
                     </div>
                     <div class="form-field">
-                        <label for="eventType">What are you looking for?</label>
+                        <label for="eventType">Which session are you interested in?</label>
                         <select id="eventType" name="session_type" required>
                             <option value="">Select a session type</option>
-                            <option value="couples">Couples Session</option>
-<option value="engagement">Engagement Session</option>
-<option value="wedding">Wedding Collection</option>
-<option value="something else!">Something else!</option>
-
+                            <option value="wedding">Wedding</option>
+                            <option value="engagement">Engagement</option>
+                            <option value="couples">Couples</option>
+                            <option value="senior-portraits">Senior Portraits</option>
+                            <option value="family">Family</option>
+                            <option value="maternity">Maternity</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
                     <div class="form-row">
@@ -542,7 +548,7 @@
                     </div>
                     <div class="form-field">
                         <label for="message">Tell me about you two!</label>
-                        <textarea id="message" name="message" rows="5" required
+                        <textarea id="message" name="message" rows="5"
                             placeholder="How did you meet? What's your vibe? Anything you want me to know!"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Send Inquiry</button>
