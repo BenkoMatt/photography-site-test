@@ -173,41 +173,99 @@
     });
 
     // ═══════════════════════════════════════════════════════════════
-    // CONTACT FORM
+    // CONTACT FORM — Formspree Integration
+    // ═══════════════════════════════════════════════════════════════
+    // Sends form data to Formspree, which emails inquiries to
+    // gallerybyjennalynn@gmail.com. Free tier: 50 submissions/month.
+    //
+    // SETUP: Replace YOUR_FORM_ID in the form's action attribute with
+    // your actual Formspree form ID (found at https://formspree.io/forms).
     // ═══════════════════════════════════════════════════════════════
     var contactForm = document.getElementById('contactForm');
     var formSuccess = document.getElementById('formSuccess');
+    var formError = document.getElementById('formError');
+    var formLoading = document.getElementById('formLoading');
+    var submitBtn = document.getElementById('submitBtn');
+    var originalBtnText = submitBtn ? submitBtn.textContent : 'Send Inquiry';
+
+    function resetFormStates() {
+        if (formSuccess) formSuccess.classList.remove('show');
+        if (formError) formError.classList.remove('show');
+        if (formLoading) formLoading.classList.remove('show');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    }
 
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // ─── FOR PRODUCTION: Send form data to your server/email ───
-            // This currently just shows a success message locally.
-            // To actually receive inquiries, connect this to:
-            //   1. A backend API endpoint (POST /api/contact)
-            //   2. A service like Formspree (https://formspree.io)
-            //   3. EmailJS (https://www.emailjs.com)
-            //   4. Your server's email handler
-            //
-            // Example with fetch():
-            //   var formData = new FormData(contactForm);
-            //   fetch('/api/contact', { method: 'POST', body: formData })
-            //     .then(function(res) { show success })
-            //     .catch(function(err) { show error });
-            // ─────────────────────────────────────────────────────────
+            // Hide any previous status messages
+            resetFormStates();
 
-            // Show success message (matches Jenna's style)
-            formSuccess.classList.add('show');
-            contactForm.reset();
+            // Show loading state
+            if (formLoading) formLoading.classList.add('show');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending…';
+            }
 
-            // Hide success after 6 seconds
-            setTimeout(function() {
-                formSuccess.classList.remove('show');
-            }, 6000);
+            // Collect form data
+            var formData = new FormData(contactForm);
 
-            // Scroll to success message
-            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Submit to Formspree via fetch API
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    // Success — show confirmation, reset form
+                    if (formLoading) formLoading.classList.remove('show');
+                    if (formSuccess) formSuccess.classList.add('show');
+                    contactForm.reset();
+
+                    // Scroll to success message
+                    if (formSuccess) {
+                        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    // Hide success after 8 seconds
+                    setTimeout(function() {
+                        if (formSuccess) formSuccess.classList.remove('show');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalBtnText;
+                        }
+                    }, 8000);
+                } else {
+                    // Formspree returned an error status
+                    throw new Error('Formspree returned ' + response.status);
+                }
+            })
+            .catch(function(error) {
+                // Network error or Formspree error — show error message
+                if (formLoading) formLoading.classList.remove('show');
+                if (formError) formError.classList.add('show');
+
+                if (formError) {
+                    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // Re-enable submit button so user can retry
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
+
+                // Hide error after 10 seconds
+                setTimeout(function() {
+                    if (formError) formError.classList.remove('show');
+                }, 10000);
+            });
         });
     }
 

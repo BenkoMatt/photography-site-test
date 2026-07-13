@@ -1087,6 +1087,47 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-success.show { display: block; }
 
+/* Formspree loading state */
+.form-loading {
+    display: none;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--sage-soft);
+    border: 1px solid var(--sage);
+    border-radius: var(--radius);
+    color: var(--sage-deep);
+    font-size: 0.9rem;
+}
+
+.form-loading.show { display: block; }
+
+/* Formspree error state */
+.form-error {
+    display: none;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fef2f2;
+    border: 1px solid #e8a0a0;
+    border-radius: var(--radius);
+    color: #a04040;
+    font-size: 0.9rem;
+}
+
+.form-error.show { display: block; }
+
+.form-error a {
+    color: #a04040;
+    text-decoration: underline;
+}
+
+/* Disabled submit button state */
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════════════════════════ */

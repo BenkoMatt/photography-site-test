@@ -502,7 +502,13 @@
                 </p>
             </div>
             <div class="contact-form-card">
-                <form id="contactForm" class="contact-form">
+                <form id="contactForm" class="contact-form"
+                    action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <!-- Formspree: customizable email subject line -->
+                    <input type="hidden" name="_subject" value="New inquiry from photographybyjennalynn.com">
+                    <!-- Formspree: honeypot spam trap (hidden from humans, bots fill it in) -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+                        style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
                     <div class="form-row">
                         <div class="form-field">
                             <label for="name">Your Name(s)</label>
@@ -539,10 +545,17 @@
                         <textarea id="message" name="message" rows="5" required
                             placeholder="How did you meet? What's your vibe? Anything you want me to know!"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-full">Send Inquiry</button>
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Send Inquiry</button>
                     <p class="form-note">I respond to all inquiries within 24 hours. Can't wait to hear from you! 💕</p>
+                    <p class="form-loading" id="formLoading">
+                        ♡ Sending your inquiry…
+                    </p>
                     <p class="form-success" id="formSuccess">
                         ♡ Yay! Your inquiry is on its way! I'll get back to you within 24 hours. Can't wait to hear more about you two! 💕
+                    </p>
+                    <p class="form-error" id="formError">
+                        ♡ Oops! Something went wrong. Please try again, or email me directly at
+                        <a href="mailto:gallerybyjennalynn@gmail.com">gallerybyjennalynn@gmail.com</a>.
                     </p>
                 </form>
             </div>
