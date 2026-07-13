@@ -243,6 +243,24 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
     line-height: 1;
 }
+
+/* Test Site badge — staging only */
+.test-site-badge {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 3px 10px;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    background: var(--sage-soft);
+    border: 1px solid var(--sage);
+    border-radius: 20px;
+    line-height: 1.4;
+    vertical-align: middle;
+}
 .logo-jenna {
     font-family: var(--font-serif);
     font-weight: 600;
