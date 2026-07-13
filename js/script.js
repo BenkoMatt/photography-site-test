@@ -364,15 +364,15 @@
         dateInput.min = today;
     }
 
-    // ─── Phone number: digits only, max 14 chars (allows (555) 123-4567) ───
+    // ─── Phone number: US only, digits only, max 10 ───
     var phoneInput = document.getElementById('phone');
     if (phoneInput) {
         phoneInput.addEventListener('input', function(e) {
-            // Strip any non-digit, non-paren, non-space, non-hyphen characters
-            var cleaned = e.target.value.replace(/[^\d\s\-\(\)]/g, '');
-            // Enforce maxlength
-            if (cleaned.length > 14) {
-                cleaned = cleaned.substring(0, 14);
+            // Strip everything except digits
+            var cleaned = e.target.value.replace(/\D/g, '');
+            // Enforce maxlength of 10
+            if (cleaned.length > 10) {
+                cleaned = cleaned.substring(0, 10);
             }
             e.target.value = cleaned;
         });
