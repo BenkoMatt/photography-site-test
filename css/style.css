@@ -1094,16 +1094,27 @@ h1, h2, h3, h4, h5, h6 {
 .form-success {
     display: none;
     text-align: center;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--sage-soft);
-    border: 1px solid var(--sage);
+    margin-top: 1.5rem;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(135deg, var(--sage-soft) 0%, #f0ebe2 100%);
+    border: 2px solid var(--sage);
     border-radius: var(--radius);
     color: var(--sage-deep);
-    font-size: 0.9rem;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    font-family: 'Cormorant Garamond', serif;
 }
 
-.form-success.show { display: block; }
+.form-success.show {
+    display: block;
+    animation: successPop 0.4s ease-out;
+}
+
+@keyframes successPop {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
 
 /* Formspree loading state */
 .form-loading {
