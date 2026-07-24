@@ -233,14 +233,14 @@
                         formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
 
-                    // Hide success after 15 seconds
+                    // Hide success after 8 seconds
                     setTimeout(function() {
                         if (formSuccess) formSuccess.classList.remove('show');
                         if (submitBtn) {
                             submitBtn.disabled = false;
                             submitBtn.textContent = originalBtnText;
                         }
-                    }, 15000);
+                    }, 8000);
                 } else {
                     // Formspree returned an error status
                     throw new Error('Formspree returned ' + response.status);
