@@ -2173,29 +2173,17 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1;
 }
 
-.ig-follow-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    flex-wrap: wrap;
+.ig-cta {
+    text-align: center;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
-.ig-divider {
-    width: 1px;
-    height: 24px;
-    background: var(--border-light);
-}
-
-.ig-meta-text {
-    font-size: 0.82rem;
+.ig-cta-text {
+    font-size: 1rem;
+    line-height: 1.8;
     color: var(--gray-light);
-    letter-spacing: 0.3px;
-}
-
-.ig-meta-text strong {
-    color: var(--charcoal);
-    font-weight: 500;
+    margin-bottom: 1.5rem;
 }
 
 .ig-follow-btn {
@@ -2235,8 +2223,6 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
     .ig-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
     .ig-strip-wrap { max-width: 400px; }
-    .ig-follow-bar { gap: 16px; }
-    .ig-divider { display: none; }
 }
 
 @media (max-width: 480px) {
@@ -2244,4 +2230,5 @@ h1, h2, h3, h4, h5, h6 {
     .ig-profile { gap: 10px; }
     .ig-avatar { width: 40px; height: 40px; font-size: 1.1rem; }
     .ig-handle { font-size: 0.95rem; }
+    .ig-cta-text { font-size: 0.9rem; }
 }
