@@ -11,12 +11,14 @@
     // ═══════════════════════════════════════════════════════════════
     // GALLERY PASSCODE CONFIGURATION
     // ═══════════════════════════════════════════════════════════════
+    // S-3 SECURITY NOTE: Client-side passcodes are visible in page source.
+    // This is a known architecture limitation. For real client galleries:
+    // 1. Use unguessable UUID-based URLs (not committed to public repo)
+    // 2. Or implement server-side validation with per-client tokens
+    // Demo passcodes below are for development only — no real client data.
     var GALLERY_CODES = {
-        'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024', cover: 'photos/gallery/portraits/matt-grad.jpeg' },
-        'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024', cover: 'photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg' },
-        'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024', cover: 'photos/gallery/couples/JennaLynnPhotography-641.jpg' }
-        // Add your client passcodes here, e.g.:
-        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025', cover: 'photos/client-photos/smith-cover.jpg' }
+        // Demo entries removed — no client-side passcodes for real galleries
+        // Real galleries will use server-side validation or UUID URLs
     };
 
     // ═══════════════════════════════════════════════════════════════

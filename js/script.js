@@ -288,21 +288,13 @@
     // ─────────────────────────────────────────────────────────────
     // PASSCODE CONFIGURATION
     // ─────────────────────────────────────────────────────────────
-    // Add client passcodes here. Each passcode maps to a gallery.
-    // Format: 'PASSCODE': { title: 'Gallery Title', date: 'Date String' }
-    //
-    // When a client enters their passcode, they're redirected to
-    // gallery.html?gallery=PASSCODE where the gallery page loads.
-    //
-    // For production with a real server, you'd replace this with
-    // a server-side check that loads actual photo folders.
+    // S-3 SECURITY: Client-side passcodes are visible in page source.
+    // Do NOT put real client passcodes here. For real client galleries:
+    // 1. Use unguessable UUID-based URLs (not committed to public repo)
+    // 2. Or implement server-side validation with per-client tokens
     // ─────────────────────────────────────────────────────────────
     var GALLERY_CODES = {
-        'DEMO-2024': { title: 'Sarah & Michael\'s Wedding', date: 'June 15, 2024' },
-        'SAMPLE-001': { title: 'Engagement Session', date: 'March 3, 2024' },
-        'COUPLE-LOVE': { title: 'Emily & James', date: 'February 14, 2024' }
-        // Add your client passcodes here, e.g.:
-        // 'SMITH-0224': { title: 'Smith Wedding Gallery', date: 'February 24, 2025' }
+        // Demo entries removed — no client-side passcodes for real galleries
     };
 
     var galleryLoginForm = document.getElementById('galleryLoginForm');

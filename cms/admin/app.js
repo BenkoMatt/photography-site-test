@@ -25,8 +25,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // ═══════════════════════════════════════════════════════════════
 // API CALLS
 // ═══════════════════════════════════════════════════════════════
+
+// S-2: Auth token for API calls — entered by user in admin panel
+var CMS_AUTH_TOKEN = '';
+
+function getAuthHeaders() {
+    var headers = { 'Content-Type': 'application/json' };
+    if (CMS_AUTH_TOKEN) {
+        headers['X-CMS-Token'] = CMS_AUTH_TOKEN;
+        headers['X-Requested-With'] = 'XMLHttpRequest';
+    }
+    return headers;
+}
+
+function checkAuthResponse(r) {
+    if (r.status === 401) {
+        promptForToken();
+        throw new Error('Authentication required');
+    }
+    return r;
+}
+
+function promptForToken() {
+    var token = prompt('Enter CMS auth token (shown in terminal when server starts):');
+    if (token) {
+        CMS_AUTH_TOKEN = token.trim();
+        loadContent();  // Retry
+    }
+}
+
 function loadContent() {
-    fetch('/api/content')
+    fetch('/api/content', { headers: getAuthHeaders() })
+        .then(checkAuthResponse)
         .then(function(r) { return r.json(); })
         .then(function(data) {
             content = data;
@@ -42,9 +72,10 @@ function saveContent() {
     if (!content) return;
     fetch('/api/content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(content)
     })
+        .then(checkAuthResponse)
         .then(function(r) { return r.json(); })
         .then(function(data) {
             if (data.status === 'ok') {
@@ -66,13 +97,14 @@ function publishToGithub() {
     // Save first, then publish
     fetch('/api/content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(content)
     })
+        .then(checkAuthResponse)
         .then(function(r) { return r.json(); })
         .then(function(saveResult) {
             if (saveResult.status !== 'ok') throw new Error(saveResult.message);
-            return fetch('/api/publish', { method: 'POST' });
+            return fetch('/api/publish', { method: 'POST', headers: getAuthHeaders() });
         })
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -194,7 +226,7 @@ function setVal(path, value) {
 
 function esc(text) {
     if (text === null || text === undefined) return '';
-    return String(text).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function updateImagePreview(input) {
@@ -614,7 +646,7 @@ function openPreview() {
     // Save first, then open preview
     fetch('/api/content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(content)
     }).then(function() {
         window.open('/', '_blank');

@@ -2,3 +2,10 @@ node_modules/
 .DS_Store
 *.log
 __pycache__/
+
+# Internal reports — should not be in public repo
+reports/
+*.bak
+COMPETITIVE_ANALYSIS*.md
+JLP_AUDIT*.md
+JLP_QA*.md

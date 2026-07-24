@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Seniors, couples, and wedding photography in Grand Rapids, MI. Sessions crafted with you in mind.">
-    <title>Test Site — Jenna Lynn Photography — Seniors, Couples, and Wedding Photography</title>
+    <title>Jenna Lynn Photography — Seniors, Couples, and Wedding Photography</title>
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Test Site — Jenna Lynn Photography — Seniors, Couples, and Wedding Photography" />
+    <meta property="og:title" content="Jenna Lynn Photography — Seniors, Couples, and Wedding Photography" />
     <meta property="og:description" content="Seniors, couples, and wedding photography in Grand Rapids, MI." />
     <meta property="og:image" content="photos/about/jenna-portrait.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
     .package-card { border-radius: 4px; }
     .btn { border-radius: 0px; }
     .ps-masonry { column-count: 3; column-gap: 4px; }
-    .hero { background: #f5f5f3; }
+    .hero { background: linear-gradient(135deg, #edeae5 0%, #edece6 50%, #acb19f 100%); }
 .hero-title, .hero-tag, .hero-sub { color: #2c2c2c; }
 
         @media (max-width: 600px) {
@@ -52,6 +52,8 @@
         .instagram { display: none !important; }
 }
 </style>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta name="referrer" content="same-origin">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body id="top">
@@ -60,7 +62,6 @@
 <nav class="navbar" id="navbar">
     <div class="nav-inner">
         <a href="#top" class="logo"><span class="logo-jenna">JENNA</span> <span class="logo-lynn">Lynn</span> <span class="logo-photo">Photography</span></a>
-        <span class="test-site-badge">Test Site</span>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
             <span></span><span></span><span></span>
         </button>
@@ -69,7 +70,6 @@
             <li><a href="#services">Pricing</a></li>
             <li><a href="#portfolio">Gallery</a></li>
             <li><a href="#process">Process</a></li>
-
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#galleries">Client Galleries</a></li>
             <li><a href="#contact" class="nav-cta">Let's Connect</a></li>
@@ -79,34 +79,10 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
-    <div class="hero-scroller">
-        <div class="hero-scroller-track">
-            <img src="photos/hero/Gracie_FlowerRing.jpeg" alt="" loading="eager">
-            <img src="photos/hero/JennaLynnPhotography-641.jpg" alt="" loading="eager">
-            <img src="photos/hero/Isaiah&groomsmen.jpg" alt="" loading="eager">
-            <img src="photos/hero/tate-and-friends-running.jpg" alt="" loading="eager">
-            <img src="photos/hero/gracie-isaiah-engagement-1.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Sylvie_Bear_Overshoulder.jpg" alt="" loading="eager">
-            <img src="photos/hero/matt-grad.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Gracie_Bridal_Outside.jpeg" alt="" loading="eager">
-            <img src="photos/hero/G_I_WedParty_Tunnel.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Tate_Friend_Portrait.JPG" alt="" loading="eager">
-            <img src="photos/hero/Gracie_FlowerRing.jpeg" alt="" loading="eager">
-            <img src="photos/hero/JennaLynnPhotography-641.jpg" alt="" loading="eager">
-            <img src="photos/hero/Isaiah&groomsmen.jpg" alt="" loading="eager">
-            <img src="photos/hero/tate-and-friends-running.jpg" alt="" loading="eager">
-            <img src="photos/hero/gracie-isaiah-engagement-1.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Sylvie_Bear_Overshoulder.jpg" alt="" loading="eager">
-            <img src="photos/hero/matt-grad.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Gracie_Bridal_Outside.jpeg" alt="" loading="eager">
-            <img src="photos/hero/G_I_WedParty_Tunnel.jpeg" alt="" loading="eager">
-            <img src="photos/hero/Tate_Friend_Portrait.JPG" alt="" loading="eager">
-        </div>
-    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <p class="hero-tag fade-in-up">Seniors, Couples, and Wedding Photographer</p>
-        <h1 class="hero-title fade-in-up delay-1">Your Session Is Waiting!</h1>
+        <h1 class="hero-title fade-in-up delay-1">Your Session Is Waiting!<br></h1>
         <p class="hero-sub fade-in-up delay-2">
             "Three things will last forever — faith, hope, and love — and the greatest of these is love." — 1 Corinthians 13:13<br>
             Authentic, joyful photography that celebrates the love God gave you.
@@ -132,13 +108,14 @@
                 </div>
             </div>
             <div class="about-text">
-                <h2 class="section-title">Hi friend, I'm Jenna!</h2>
+                <p class="section-label"></p>
+                <h2 class="section-title">I&#39;m Not Just Your Photographer —<br>I&#39;m Your Biggest Hype Girl</h2>
                 <p class="lead">I believe God writes beautiful love stories, and your photo session should reflect that. No stiff poses, no awkward silences — just the two of you, being completely yourselves, while I capture the real moments that matter.</p>
-<p class="">Whether you're newly engaged, celebrating an anniversary, or saying &quot;I do&quot; — I'm here to make you feel confident, comfortable, and completely cared for. I'll hype you up, make you laugh (dad jokes included), and deliver a gallery that makes you fall in love all over again.</p>
-<p class="">Proudly Michigan-made. I was born and raised in the Great Lakes State, and there's nowhere I'd rather build my business. Michigan gives us four breathtaking seasons, endless lakeshore backdrops, and sunsets that paint the sky over Lake Michigan in ways that make my camera weep with joy. Whether we're shooting among the dunes of Sleeping Bear, beneath a canopy of autumn maples, or in a cozy downtown café in Grand Rapids — this state is part of your story, and I wouldn't have it any other way.</p>
-<p class="">Every love story is a gift from above — and it's my joy to help you tell yours. Based in Grand Rapids, MI — available for travel.</p>
+<p class="">Whether you&#39;re newly engaged, celebrating an anniversary, or saying &quot;I do&quot; — I&#39;m here to make you feel confident, comfortable, and completely cared for. I&#39;ll hype you up, make you laugh (dad jokes included), and deliver a gallery that makes you fall in love all over again.</p>
+<p class="">Proudly Michigan-made. I was born and raised in the Great Lakes State, and there&#39;s nowhere I&#39;d rather build my business. Michigan gives us four breathtaking seasons, endless lakeshore backdrops, and sunsets that paint the sky over Lake Michigan in ways that make my camera weep with joy. Whether we&#39;re shooting among the dunes of Sleeping Bear, beneath a canopy of autumn maples, or in a cozy downtown café in Grand Rapids — this state is part of your story, and I wouldn&#39;t have it any other way.</p>
+<p class="">Every love story is a gift from above — and it&#39;s my joy to help you tell yours. Based in Michigan — available for travel worldwide.</p>
 
-                <a href="#contact" class="btn btn-outline">Let's Get to Know Each Other</a>
+                <a href="#contact" class="btn btn-outline">Let&#39;s Get to Know Each Other</a>
             </div>
         </div>
     </div>
@@ -149,8 +126,8 @@
     <div class="container">
         <div class="section-header">
             <p class="section-label">Pricing</p>
-
             <h2 class="section-title">Choose the experience that fits your season.</h2>
+            <p class="section-sub"></p>
         </div>
         <div class="packages-grid">
 
@@ -162,6 +139,7 @@
             <div class="package-body">
                 <h3>Portraits</h3>
                 <p class="package-price">$<span class="price-amount">100</span></p>
+                <p class="package-tagline"></p>
                 <ul class="package-features">
                     <li><span class="check">✓</span> 1 Location</li>
 <li><span class="check">✓</span> 1 Outfit</li>
@@ -169,42 +147,47 @@
 <li><span class="check">✓</span> 50+ Edited Online Gallery</li>
 
                 </ul>
+                <a href="#contact" class="btn btn-outline"></a>
             </div>
         </div>
         <div class="package-card">
             
             <div class="package-card-img">
-                <img src="photos/pricing/jesse-and-sam-engagement-card.jpeg" alt="Couples" loading="lazy">
+                <img src="photos/pricing/engagement-ring-02.jpeg" alt="Couples" loading="lazy">
             </div>
             <div class="package-body">
                 <h3>Couples</h3>
                 <p class="package-price">$<span class="price-amount">150</span></p>
+                <p class="package-tagline"></p>
                 <ul class="package-features">
                     <li><span class="check">✓</span> 1 Location</li>
 <li><span class="check">✓</span> 1 Hour of Shooting</li>
 <li><span class="check">✓</span> 75+ Edited Online Gallery</li>
 
                 </ul>
+                <a href="#contact" class="btn btn-outline"></a>
             </div>
         </div>
         <div class="package-card package-featured">
             <div class="package-badge">Most Loved</div>
             <div class="package-card-img">
-                <img src="photos/pricing/G_I_WedParty_Cross_Kiss.jpeg" alt="Weddings" loading="lazy" style="object-position: 63% 38%;">
+                <img src="photos/pricing/wedding-party-kiss-01.jpeg" alt="Weddings" loading="lazy" style="object-position: 63% 38%;">
             </div>
             <div class="package-body">
                 <h3>Weddings</h3>
                 <p class="package-price">$<span class="price-amount">650</span></p>
+                <p class="package-tagline"></p>
                 <ul class="package-features">
                     <li><span class="check">✓</span> All-Day Coverage</li>
 <li><span class="check">✓</span> 40+ Sneak Peeks 1–2 Weeks After Wedding Date</li>
 <li><span class="check">✓</span> 300+ Edited Online Wedding Gallery</li>
 
                 </ul>
+                <a href="#contact" class="btn btn-primary"></a>
             </div>
         </div>
         </div>
-
+        <p class="custom-note"></p>
     </div>
 </section>
 
@@ -214,7 +197,7 @@
         <div class="section-header">
             <p class="section-label">Portfolio</p>
             <h2 class="section-title">Love in Every Frame</h2>
-            <p class="section-sub">A glimpse into the love stories I've had the honor of telling — every one a blessing from above.</p>
+            <p class="section-sub">A glimpse into the love stories I&#39;ve had the honor of telling — every one a blessing from above.</p>
         </div>
         <div class="portfolio-filters">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -226,45 +209,48 @@
         <div class="portfolio-grid" id="portfolioGrid">
 
             <div class="portfolio-item portfolio-tall" data-category="wedding">
-                <img src="photos/gallery/weddings/Gracie_FlowerRing.jpeg" alt="Wedding flower ring detail" loading="lazy">
+                <img src="photos/gallery/weddings/wedding-flower-ring-01.jpeg" alt="Wedding flower ring detail" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Wedding</span></div>
             </div>
             <div class="portfolio-item" data-category="couples">
-                <img src="photos/gallery/couples/JennaLynnPhotography-641.jpg" alt="Couples session photo" loading="lazy">
+                <img src="photos/gallery/couples/couples-session-01.jpg" alt="Couples session photo" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Couples</span></div>
             </div>
             <div class="portfolio-item" data-category="wedding">
-                <img src="photos/gallery/weddings/Isaiah&groomsmen.jpg" alt="Isaiah and groomsmen" loading="lazy" style="object-position: 50% 75%;">
+                <img src="photos/gallery/weddings/wedding-groomsmen-01.jpg" alt="Groom and groomsmen" loading="lazy" style="object-position: 50% 75%;">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Wedding</span></div>
             </div>
             <div class="portfolio-item portfolio-tall" data-category="portrait">
-                <img src="photos/gallery/portraits/tate-and-friends-running.jpg" alt="Portrait session" loading="lazy">
+                <img src="photos/gallery/portraits/portrait-friends-01.jpg" alt="Portrait session" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Portrait</span></div>
             </div>
             <div class="portfolio-item" data-category="engagement">
-                <img src="photos/gallery/engagements/gracie-isaiah-engagement-1.jpeg" alt="Engagement session" loading="lazy">
+                <img src="photos/gallery/engagements/engagement-session-01.jpeg" alt="Engagement session" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Engagement</span></div>
             </div>
             <div class="portfolio-item portfolio-tall" data-category="portrait">
-                <img src="photos/gallery/portraits/Sylvie_Bear_Overshoulder.jpg" alt="Sylvie portrait" loading="lazy">
+                <img src="photos/gallery/portraits/portrait-bear-01.jpg" alt="Portrait with teddy bear" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Portrait</span></div>
             </div>
             <div class="portfolio-item portfolio-tall" data-category="portrait">
-                <img src="photos/gallery/portraits/matt-grad.jpeg" alt="Graduation portrait" loading="lazy">
+                <img src="photos/gallery/portraits/portrait-grad-01.jpeg" alt="Graduation portrait" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Portrait</span></div>
             </div>
             <div class="portfolio-item" data-category="wedding">
-                <img src="photos/gallery/weddings/Gracie_Bridal_Outside.jpeg" alt="Bride outside portrait" loading="lazy">
+                <img src="photos/gallery/weddings/wedding-bridal-outside-01.jpeg" alt="Bride outside portrait" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Wedding</span></div>
             </div>
             <div class="portfolio-item portfolio-tall" data-category="wedding">
-                <img src="photos/gallery/weddings/G_I_WedParty_Tunnel.jpeg" alt="Wedding party tunnel" loading="lazy">
+                <img src="photos/gallery/weddings/wedding-party-tunnel-01.jpeg" alt="Wedding party tunnel" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Wedding</span></div>
             </div>
             <div class="portfolio-item portfolio-tall" data-category="portrait">
                 <img src="photos/gallery/portraits/Tate_Friend_Portrait.JPG" alt="Tate and friend portrait" loading="lazy">
                 <div class="portfolio-overlay"><span class="portfolio-cat">Portrait</span></div>
             </div>
+        </div>
+        <div class="gallery-cta">
+            <a href="#contact" class="btn btn-outline">See Your Name Here — Book a Session</a>
         </div>
     </div>
 </section>
@@ -275,91 +261,77 @@
         <div class="section-header">
             <p class="section-label">How It Works</p>
             <h2 class="section-title">From First Hello to Final Gallery</h2>
-            <p class="section-sub">I've designed every step to be easy, personal, and actually fun.</p>
+            <p class="section-sub">I&#39;ve designed every step to be easy, personal, and actually fun.</p>
         </div>
         <div class="process-grid">
 
             <div class="process-step">
                 <div class="process-number">01</div>
                 <h3>Connect</h3>
-                <p>Fill out the inquiry form and tell me all about you two! I'll get back to you within 24 hours — usually sooner. I pray over every inquiry and can't wait to hear your story.</p>
+                <p>Fill out the inquiry form and tell me all about you two! I&#39;ll get back to you within 24 hours — usually sooner. I pray over every inquiry and can&#39;t wait to hear your story.</p>
             </div>
             <div class="process-step">
                 <div class="process-number">02</div>
                 <h3>Plan</h3>
-                <p>I'll send over my shoot guide, a fun couples questionnaire, and we'll plan out every detail — from location scouting to outfit coordination. No stress, just joyful anticipation!</p>
+                <p>I&#39;ll send over my shoot guide, a fun couples questionnaire, and we&#39;ll plan out every detail — from location scouting to outfit coordination. No stress, just joyful anticipation!</p>
             </div>
             <div class="process-step">
                 <div class="process-number">03</div>
                 <h3>Party</h3>
-                <p>Shoot day should feel like a celebration! I'll guide you through natural poses, crack jokes, hype you up, and capture the real joy that happens when you're just being yourselves — the way God made you.</p>
+                <p>Shoot day should feel like a celebration! I&#39;ll guide you through natural poses, crack jokes, hype you up, and capture the real joy that happens when you&#39;re just being yourselves — the way God made you.</p>
             </div>
             <div class="process-step">
                 <div class="process-number">04</div>
                 <h3>Relive</h3>
-                <p>Within 72 hours you'll see sneak peeks, and your full gallery arrives within 3–4 weeks. Every image hand-edited with care — because your story deserves nothing less. Ready to print, share, and treasure forever.</p>
+                <p>Within 72 hours you&#39;ll see sneak peeks, and your full gallery arrives within 3–4 weeks. Every image hand-edited with care — because your story deserves nothing less. Ready to print, share, and treasure forever.</p>
             </div>
         </div>
     </div>
 </section>
-
-
 
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq">
     <div class="container">
         <div class="section-header">
             <p class="section-label">Got Questions?</p>
-            
+            <h2 class="section-title"></h2>
         </div>
         <div class="faq-list">
 
             <details class="faq-item" open>
-                <summary>How do I book a session?</summary>
+                <summary>We&#39;re not models — are you sure this is for us?</summary>
                 <div class="faq-answer">
-                    <p>Simply fill out my contact form, send me an email, or message me on social media! Once we choose a date and location, I'll send over all the details to make your session stress-free.</p>
+                    <p>Absolutely! Most of my couples have never had professional photos taken before. That&#39;s my specialty — making you feel completely at ease, guiding you into flattering poses, and capturing genuine moments. God created you beautifully, and my job is simply to let that shine through!</p>
                 </div>
             </details>
             <details class="faq-item">
-                <summary>What types of photography do you offer?</summary>
+                <summary>How many images will we receive and when?</summary>
                 <div class="faq-answer">
-                    <p>I currently offer seniors, couples, engagements, maternity, and select weddings.</p>
+                    <p>Depending on your session length, you&#39;ll receive 50–75+ fully edited high-resolution images. Sneak peeks land in your inbox within 72 hours, and the full gallery is delivered within 3–4 weeks.</p>
                 </div>
             </details>
             <details class="faq-item">
-                <summary>Where are you located?</summary>
+                <summary>What&#39;s your editing style?</summary>
                 <div class="faq-answer">
-                    <p>I'm based in West Michigan and serve the surrounding areas. I'm always open to traveling for sessions and special events. Travel fees may apply depending on the distance.</p>
+                    <p>My style is bright, warm, and true-to-life with a touch of editorial polish. I focus on clean skin tones, vibrant colors, and natural light — photos that feel timeless, not trendy.</p>
                 </div>
             </details>
             <details class="faq-item">
-                <summary>How long does it take to receive my photos?</summary>
+                <summary>Do you offer payment plans?</summary>
                 <div class="faq-answer">
-                    <p>Each session is different! Typical portrait sessions are delivered within 2–3 weeks. Wedding galleries may take longer with a 1-3 month return.</p>
+                    <p>Yes! I totally understand that life gets expensive. Payment plans are available for all packages — just ask when you inquire. I never want cost to be the reason you miss out on documenting the love story God gave you.</p>
                 </div>
             </details>
             <details class="faq-item">
-                <summary>How will I receive my photos?</summary>
+                <summary>What if it rains on our session day?</summary>
                 <div class="faq-answer">
-                    <p>You'll receive an online gallery where you can view, download, and share your images with family and friends.</p>
+                    <p>No worries! I keep a close eye on the forecast and we&#39;ll reschedule if needed — no extra charge. Some of my favorite sessions have happened on overcast days with the most beautiful soft light. Even the weather is in His hands!</p>
                 </div>
             </details>
             <details class="faq-item">
-                <summary>What happens if the weather is bad?</summary>
+                <summary>Do you travel for sessions?</summary>
                 <div class="faq-answer">
-                    <p>If weather impacts your outdoor session, we'll work together to reschedule for the next available date.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>Do you require a deposit?</summary>
-                <div class="faq-answer">
-                    <p>Yes, a non-refundable retainer is required to secure your date. The remaining balance is due before your session or event.</p>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>What is your editing style?</summary>
-                <div class="faq-answer">
-                    <p>My editing style is light and airy. I want them to feel dreamy, clean, and timeless.</p>
+                    <p>Yes! I&#39;m based in Michigan and include travel within a 30-mile radius. For destinations further afield, I&#39;m happy to provide a custom travel quote. Adventure sessions are my favorite!</p>
                 </div>
             </details>
         </div>
@@ -372,7 +344,7 @@
         <div class="section-header">
             <p class="section-label">For Clients</p>
             <h2 class="section-title">Your private gallery awaits</h2>
-            <p class="section-sub">Once your photos are edited and ready, they'll be available in your personal, password-protected gallery. View, share with family, and download your favorites — all in one place.</p>
+            <p class="section-sub">Once your photos are edited and ready, they&#39;ll be available in your personal, password-protected gallery. View, share with family, and download your favorites — all in one place.</p>
         </div>
         <div class="gallery-access">
             <div class="gallery-info">
@@ -385,7 +357,7 @@
                     </li>
                     <li>
                         <span class="step-num">2</span>
-                        <span>You'll receive an email with your private gallery link and a personal passcode.</span>
+                        <span>You&#39;ll receive an email with your private gallery link and a personal passcode.</span>
                     </li>
                     <li>
                         <span class="step-num">3</span>
@@ -432,9 +404,9 @@
     <div class="container">
         <div class="contact-grid">
             <div class="contact-info">
-                <p class="section-label">Let's Connect</p>
+                <p class="section-label">Let&#39;s Connect</p>
                 <h2 class="section-title">Ready to Have Some Fun?</h2>
-                <p class="lead">I'm so glad you're here! Fill out the form and tell me a little about yourselves and what you're dreaming of. I pray over every inquiry and can't wait to hear your story — I'll get back to you within 24 hours, usually sooner!</p>
+                <p class="lead">I&#39;m so glad you&#39;re here! Fill out the form and tell me a little about yourselves and what you&#39;re dreaming of. I pray over every inquiry and can&#39;t wait to hear your story — I&#39;ll get back to you within 24 hours, usually sooner!</p>
                 <div class="contact-details">
                     <div class="contact-item">
                         <span class="contact-icon">✉</span>
@@ -466,38 +438,26 @@
                 </p>
             </div>
             <div class="contact-form-card">
-                <form id="contactForm" class="contact-form"
-                    action="https://formspree.io/f/xbdnjwwq" method="POST">
-                    <!-- Formspree: customizable email subject line -->
-                    <input type="hidden" name="_subject" value="New Inquiry - JLP">
-                    <!-- Formspree: honeypot spam trap (hidden from humans, bots fill it in) -->
-                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-                        style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-                    <div class="form-field">
-                        <label for="name">First & Last Name(s)</label>
-                        <input type="text" id="name" name="name" placeholder="Your first and last name(s)" required>
-                    </div>
+                <form id="contactForm" class="contact-form">
                     <div class="form-row">
                         <div class="form-field">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                            <label for="name">Your Name(s)</label>
+                            <input type="text" id="name" name="name" placeholder="Both your names!" required>
                         </div>
                         <div class="form-field">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" maxlength="10" placeholder="5551234567" pattern="\d{10}">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="you@email.com" required>
                         </div>
                     </div>
                     <div class="form-field">
-                        <label for="eventType">Which session are you interested in?</label>
+                        <label for="eventType">What are you looking for?</label>
                         <select id="eventType" name="session_type" required>
                             <option value="">Select a session type</option>
-                            <option value="wedding">Wedding</option>
-                            <option value="engagement">Engagement</option>
-                            <option value="couples">Couples</option>
-                            <option value="senior-portraits">Senior Portraits</option>
-                            <option value="family">Family</option>
-                            <option value="maternity">Maternity</option>
-                            <option value="other">Other</option>
+                            <option value="couples">Couples Session</option>
+<option value="engagement">Engagement Session</option>
+<option value="wedding">Wedding Collection</option>
+<option value="something else!">Something else!</option>
+
                         </select>
                     </div>
                     <div class="form-row">
@@ -512,20 +472,13 @@
                     </div>
                     <div class="form-field">
                         <label for="message">Tell me about you two!</label>
-                        <textarea id="message" name="message" rows="5"
+                        <textarea id="message" name="message" rows="5" required
                             placeholder="How did you meet? What's your vibe? Anything you want me to know!"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Send Inquiry</button>
-                    <p class="form-note">I respond to all inquiries within 24 hours. Can't wait to hear from you! 💕</p>
-                    <p class="form-loading" id="formLoading">
-                        ♡ Sending your inquiry…
-                    </p>
+                    <button type="submit" class="btn btn-primary btn-full">Send Inquiry</button>
+                    <p class="form-note">I respond to all inquiries within 24 hours. Can&#39;t wait to hear from you! 💕</p>
                     <p class="form-success" id="formSuccess">
                         ♡ Yay! Your inquiry is on its way! I'll get back to you within 24 hours. Can't wait to hear more about you two! 💕
-                    </p>
-                    <p class="form-error" id="formError">
-                        ♡ Oops! Something went wrong. Please try again, or email me directly at
-                        <a href="mailto:gallerybyjennalynn@gmail.com">gallerybyjennalynn@gmail.com</a>.
                     </p>
                 </form>
             </div>
@@ -581,6 +534,5 @@
 </div>
 
 <script src="js/script.js"></script>
-
 </body>
 </html>

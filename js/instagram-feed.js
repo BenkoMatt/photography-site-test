@@ -2,6 +2,7 @@
    JENNA LYNN PHOTOGRAPHY — Instagram Feed
    Fetches latest posts from /api/instagram-feed (server-side proxy)
    Renders a 3x3 grid with hover overlays
+   S-8 FIX: Uses DOM API (createElement + textContent) instead of innerHTML
    ═══════════════════════════════════════════════════════════════ */
 
 (function() {
@@ -13,37 +14,80 @@
         var container = document.getElementById('instagram-feed');
         if (!container) return;
 
+        // Clear existing content
+        container.textContent = '';
+
         if (!posts || posts.length === 0) {
-            container.innerHTML = '<p class="ig-error">Unable to load Instagram feed. <a href="https://instagram.com/photographybyjennalynn_">Visit our Instagram</a></p>';
+            var p = document.createElement('p');
+            p.className = 'ig-error';
+            p.textContent = 'Unable to load Instagram feed. ';
+            var link = document.createElement('a');
+            link.href = 'https://instagram.com/photographybyjennalynn_';
+            link.textContent = 'Visit our Instagram';
+            p.appendChild(link);
+            container.appendChild(p);
             return;
         }
 
         // Update post count
         var countEl = document.getElementById('igPostCount');
         if (countEl) {
-            countEl.innerHTML = '<strong>' + posts.length + '</strong> recent posts';
+            countEl.textContent = '';
+            var strong = document.createElement('strong');
+            strong.textContent = String(posts.length);
+            countEl.appendChild(strong);
+            countEl.appendChild(document.createTextNode(' recent posts'));
         }
 
-        container.innerHTML = posts.map(function(post) {
+        posts.forEach(function(post) {
             var imgSrc = post.media_type === 'VIDEO'
                 ? post.thumbnail_url
                 : post.media_url;
             var caption = (post.caption || '').substring(0, 80);
             var isVideo = post.media_type === 'VIDEO';
 
-            return '<a href="' + post.permalink + '" class="ig-post" target="_blank" rel="noopener" title="' +
-                caption.replace(/"/g, '&quot;') + '">' +
-                '<img src="' + imgSrc + '" alt="' + caption.replace(/"/g, '&quot;') + '" loading="lazy" />' +
-                (isVideo ? '<span class="ig-post-type-badge">▶</span>' : '') +
-                '<div class="ig-post-overlay">' +
-                    '<div class="ig-post-stats">' +
-                        '<span>♥ ' + (post.like_count || 0) + '</span>' +
-                        '<span>💬 ' + (post.comments_count || 0) + '</span>' +
-                    '</div>' +
-                    '<div class="ig-post-caption">' + caption + '</div>' +
-                '</div>' +
-            '</a>';
-        }).join('');
+            // Build elements via DOM API — no innerHTML
+            var anchor = document.createElement('a');
+            anchor.href = post.permalink;
+            anchor.className = 'ig-post';
+            anchor.target = '_blank';
+            anchor.rel = 'noopener';
+            anchor.title = caption;
+
+            var img = document.createElement('img');
+            img.src = imgSrc || '';
+            img.alt = caption;
+            img.loading = 'lazy';
+            anchor.appendChild(img);
+
+            if (isVideo) {
+                var badge = document.createElement('span');
+                badge.className = 'ig-post-type-badge';
+                badge.textContent = '\u25B6'; // play symbol
+                anchor.appendChild(badge);
+            }
+
+            var overlay = document.createElement('div');
+            overlay.className = 'ig-post-overlay';
+
+            var stats = document.createElement('div');
+            stats.className = 'ig-post-stats';
+            var likeSpan = document.createElement('span');
+            likeSpan.textContent = '\u2665 ' + (post.like_count || 0);
+            var commentSpan = document.createElement('span');
+            commentSpan.textContent = '\uD83D\uDCAC ' + (post.comments_count || 0);
+            stats.appendChild(likeSpan);
+            stats.appendChild(commentSpan);
+            overlay.appendChild(stats);
+
+            var captionDiv = document.createElement('div');
+            captionDiv.className = 'ig-post-caption';
+            captionDiv.textContent = caption;
+            overlay.appendChild(captionDiv);
+
+            anchor.appendChild(overlay);
+            container.appendChild(anchor);
+        });
     }
 
     function loadFeed() {

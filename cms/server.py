@@ -19,7 +19,10 @@ import sys
 import subprocess
 import threading
 import webbrowser
-from http.server import HTTPServer, BaseHTTPRequestHandler
+import secrets
+import time
+from collections import defaultdict
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
 
@@ -32,6 +35,22 @@ ADMIN_DIR = CMS_DIR / "admin"
 SITE_DIR = BASE_DIR  # Where index.html, gallery.html, css/, js/, photos/ live
 
 PORT = 5000
+
+# ─── Security Configuration ───
+CMS_AUTH_TOKEN = secrets.token_urlsafe(32)  # Generated per-session; printed to console
+MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # 10 MB max request body
+ALLOWED_ORIGINS = [f"localhost:{PORT}", f"127.0.0.1:{PORT}"]
+
+# ─── Rate Limiting ───
+RATE_LIMITS = {
+    "/api/publish": {"max": 1, "window": 30},   # 1 per 30 seconds
+    "/api/content": {"max": 10, "window": 60},   # 10 per minute
+}
+_rate_limit_state = defaultdict(list)  # path -> list of timestamps
+
+# ─── HTML Cache ───
+_html_cache = {}
+_content_mtime = 0
 
 
 def load_content():
@@ -52,14 +71,15 @@ def save_content(data):
 # ═══════════════════════════════════════════════════════════════
 
 def esc(text):
-    """HTML escape"""
+    """HTML escape — escapes &, <, >, ", and ' (single quotes)"""
     if text is None:
         return ""
     return (str(text)
             .replace("&", "&amp;")
             .replace("<", "&lt;")
             .replace(">", "&gt;")
-            .replace('"', "&quot;"))
+            .replace('"', "&quot;")
+            .replace("'", "&#39;"))
 
 
 def build_theme_css(c):
@@ -267,10 +287,14 @@ def build_index_html(c):
         cls = "lead" if i == 0 else ""
         about_paragraphs_html += f'<p class="{cls}">{esc(p)}</p>\n'
 
-    # Gallery codes JS
+    # Gallery codes JS — use json.dumps for safe JS string contexts
     gallery_codes_js = "var GALLERY_CODES = {\n"
     for g in galleries["galleries"]:
-        gallery_codes_js += f"    '{esc(g['code'])}': {{ title: '{esc(g['title'])}', date: '{esc(g['date'])}', cover: '{esc(g.get('cover', ''))}' }},\n"
+        code = json.dumps(g['code'])
+        title = json.dumps(g['title'])
+        date = json.dumps(g['date'])
+        cover = json.dumps(g.get('cover', ''))
+        gallery_codes_js += f"    {code}: {{ title: {title}, date: {date}, cover: {cover} }},\n"
     gallery_codes_js += "};"
 
     html = f'''<!DOCTYPE html>
@@ -289,6 +313,8 @@ def build_index_html(c):
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>{build_theme_css(c)}</style>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta name="referrer" content="same-origin">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body id="top">
@@ -636,6 +662,8 @@ def build_gallery_html(c):
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>{build_theme_css(c)}</style>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta name="referrer" content="same-origin">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body class="gallery-page">
@@ -761,17 +789,32 @@ def build_gallery_html(c):
 
 
 def build_site():
-    """Generate both HTML files from content.json"""
-    c = load_content()
-    index_html = build_index_html(c)
-    gallery_html = build_gallery_html(c)
+    """Generate both HTML files from content.json. Uses cache when content hasn't changed."""
+    global _content_mtime, _html_cache
+    try:
+        current_mtime = os.path.getmtime(CONTENT_FILE)
+    except FileNotFoundError:
+        current_mtime = 0
+
+    # Rebuild only if content.json changed since last build
+    if current_mtime != _content_mtime or "index" not in _html_cache:
+        c = load_content()
+        _html_cache["index"] = build_index_html(c)
+        _html_cache["gallery"] = build_gallery_html(c)
+        _content_mtime = current_mtime
 
     with open(SITE_DIR / "index.html", "w", encoding="utf-8") as f:
-        f.write(index_html)
+        f.write(_html_cache["index"])
     with open(SITE_DIR / "gallery.html", "w", encoding="utf-8") as f:
-        f.write(gallery_html)
+        f.write(_html_cache["gallery"])
 
     return True
+
+
+def invalidate_cache():
+    """Force rebuild on next build_site() call (after content save)."""
+    global _content_mtime
+    _content_mtime = -1
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -781,6 +824,95 @@ def build_site():
 class CMSHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         pass  # Suppress logs
+
+    def add_security_headers(self, content_type=None):
+        """Add security headers to all responses."""
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("X-XSS-Protection", "1; mode=block")
+        self.send_header("Referrer-Policy", "same-origin")
+
+    def check_auth(self):
+        """S-2: Validate bearer token for /api/* endpoints."""
+        auth = self.headers.get("Authorization", "")
+        if auth.startswith("Bearer "):
+            token = auth[7:]
+            if token and token == CMS_AUTH_TOKEN:
+                return True
+        # Also accept token via X-CMS-Token header (for admin panel JS)
+        cms_token = self.headers.get("X-CMS-Token", "")
+        if cms_token and cms_token == CMS_AUTH_TOKEN:
+            return True
+        return False
+
+    def check_csrf(self):
+        """S-4: Check Origin/Referer headers and X-Requested-With for POST requests."""
+        origin = self.headers.get("Origin", "")
+        referer = self.headers.get("Referer", "")
+
+        # Check Origin header
+        if origin:
+            parsed = urlparse(origin)
+            origin_host = parsed.netloc
+            if origin_host not in ALLOWED_ORIGINS:
+                return False
+        elif referer:
+            # Fall back to Referer if Origin not present
+            parsed = urlparse(referer)
+            referer_host = parsed.netloc
+            if referer_host and referer_host not in ALLOWED_ORIGINS:
+                return False
+        else:
+            # No Origin or Referer — reject (browsers always send at least one)
+            # Allow loopback without headers for CLI testing
+            return False
+
+        # Require custom header that cross-origin requests can't send without CORS preflight
+        if not self.headers.get("X-Requested-With"):
+            return False
+
+        return True
+
+    def check_rate_limit(self, path):
+        """S-16: Simple in-memory rate limiter."""
+        limit = RATE_LIMITS.get(path)
+        if not limit:
+            return True
+
+        now = time.time()
+        timestamps = _rate_limit_state[path]
+        window_start = now - limit["window"]
+
+        # Prune old timestamps
+        _rate_limit_state[path] = [t for t in timestamps if t > window_start]
+        timestamps = _rate_limit_state[path]
+
+        if len(timestamps) >= limit["max"]:
+            return False
+
+        timestamps.append(now)
+        return True
+
+    def send_unauthorized(self):
+        self.send_response(401)
+        self.send_header("Content-Type", "application/json")
+        self.add_security_headers()
+        self.end_headers()
+        self.wfile.write(json.dumps({"status": "error", "message": "Unauthorized"}).encode("utf-8"))
+
+    def send_forbidden(self, reason="Forbidden"):
+        self.send_response(403)
+        self.send_header("Content-Type", "application/json")
+        self.add_security_headers()
+        self.end_headers()
+        self.wfile.write(json.dumps({"status": "error", "message": reason}).encode("utf-8"))
+
+    def send_too_many(self):
+        self.send_response(429)
+        self.send_header("Content-Type", "application/json")
+        self.add_security_headers()
+        self.end_headers()
+        self.wfile.write(json.dumps({"status": "error", "message": "Rate limit exceeded"}).encode("utf-8"))
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -794,13 +926,19 @@ class CMSHandler(BaseHTTPRequestHandler):
         elif path == "/admin/js":
             self.serve_file(ADMIN_DIR / "app.js", "application/javascript")
 
-        # API: Get content
+        # API: Get content (S-2: requires auth)
         elif path == "/api/content":
+            if not self.check_auth():
+                self.send_unauthorized()
+                return
             content = load_content()
             self.send_json(content)
 
-        # API: Get preview HTML
+        # API: Get preview HTML (S-2: requires auth)
         elif path == "/api/preview":
+            if not self.check_auth():
+                self.send_unauthorized()
+                return
             build_site()
             self.send_json({"status": "ok", "message": "Site rebuilt"})
 
@@ -812,7 +950,7 @@ class CMSHandler(BaseHTTPRequestHandler):
             build_site()
             self.serve_file(SITE_DIR / "gallery.html", "text/html")
         elif path.startswith("/css/") or path.startswith("/js/") or path.startswith("/photos/"):
-            self.serve_file(SITE_DIR / path.lstrip("/"), self.guess_mime(path))
+            self.serve_safe_file(path)
         else:
             self.send_error(404, "Not found")
 
@@ -820,16 +958,68 @@ class CMSHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
 
+        # S-15: Content-Length limit
         content_length = int(self.headers.get("Content-Length", 0))
+        if content_length > MAX_CONTENT_LENGTH:
+            self.send_response(413)
+            self.send_header("Content-Type", "application/json")
+            self.add_security_headers()
+            self.end_headers()
+            self.wfile.write(json.dumps({"status": "error", "message": "Request body too large"}).encode("utf-8"))
+            return
+
         body = self.rfile.read(content_length).decode("utf-8")
 
-        # API: Save content
+        # S-2: All POST API endpoints require auth
+        if not self.check_auth():
+            self.send_unauthorized()
+            return
+
+        # S-4: CSRF protection on all POST endpoints
+        if not self.check_csrf():
+            self.send_forbidden("CSRF check failed")
+            return
+
+        # S-16: Rate limiting
+        if not self.check_rate_limit(path):
+            self.send_too_many()
+            return
+
+        # API: Save content (S-7: input validation)
         if path == "/api/content":
             try:
                 data = json.loads(body)
+                # S-7: Basic schema validation
+                if not isinstance(data, dict):
+                    self.send_json({"status": "error", "message": "Content must be a JSON object"}, code=400)
+                    return
+                required_keys = ["site", "hero", "about", "services", "portfolio", "process", "faq", "client_galleries", "contact"]
+                missing = [k for k in required_keys if k not in data]
+                if missing:
+                    self.send_json({"status": "error", "message": f"Missing required keys: {missing}"}, code=400)
+                    return
+                # Validate string fields don't exceed reasonable length
+                MAX_STRING_LEN = 10000
+                def validate_strings(obj, depth=0):
+                    if depth > 10:
+                        return False
+                    if isinstance(obj, str):
+                        return len(obj) <= MAX_STRING_LEN
+                    if isinstance(obj, dict):
+                        return all(validate_strings(v, depth + 1) for v in obj.values())
+                    if isinstance(obj, list):
+                        return all(validate_strings(v, depth + 1) for v in obj)
+                    return True
+                if not validate_strings(data):
+                    self.send_json({"status": "error", "message": "String value exceeds maximum length"}, code=400)
+                    return
+
                 save_content(data)
+                invalidate_cache()
                 build_site()  # Rebuild site immediately
                 self.send_json({"status": "ok", "message": "Content saved and site rebuilt"})
+            except json.JSONDecodeError:
+                self.send_json({"status": "error", "message": "Invalid JSON"}, code=400)
             except Exception as e:
                 self.send_json({"status": "error", "message": str(e)}, code=400)
 
@@ -844,17 +1034,33 @@ class CMSHandler(BaseHTTPRequestHandler):
         # API: Add gallery photo
         elif path == "/api/upload":
             try:
-                # Handle file upload (simplified — saves to photos/ folder)
                 data = json.loads(body)
                 filename = data.get("filename", "upload.jpg")
-                filepath = SITE_DIR / "photos" / "client-photos" / filename
-                # In production, save actual file data here
-                self.send_json({"status": "ok", "path": f"photos/client-photos/{filename}"})
+                # S-1: Sanitize filename — no path traversal
+                safe_name = Path(filename).name  # Strips any directory components
+                filepath = SITE_DIR / "photos" / "client-photos" / safe_name
+                resolved = filepath.resolve()
+                # Ensure the resolved path is within the client-photos directory
+                client_photos_dir = (SITE_DIR / "photos" / "client-photos").resolve()
+                if not resolved.is_relative_to(client_photos_dir):
+                    self.send_json({"status": "error", "message": "Invalid filename"}, code=400)
+                    return
+                self.send_json({"status": "ok", "path": f"photos/client-photos/{safe_name}"})
             except Exception as e:
                 self.send_json({"status": "error", "message": str(e)}, code=400)
 
         else:
             self.send_error(404, "Not found")
+
+    def serve_safe_file(self, path):
+        """S-1: Serve site files with path containment validation."""
+        # Strip the leading slash and resolve
+        relative_path = path.lstrip("/")
+        resolved = (SITE_DIR / relative_path).resolve()
+        if not resolved.is_relative_to(SITE_DIR):
+            self.send_error(403, "Forbidden")
+            return
+        self.serve_file(resolved, self.guess_mime(path))
 
     def serve_file(self, filepath, mime_type):
         try:
@@ -863,6 +1069,7 @@ class CMSHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", mime_type)
             self.send_header("Content-Length", str(len(content)))
+            self.add_security_headers()
             self.end_headers()
             self.wfile.write(content)
         except FileNotFoundError:
@@ -873,6 +1080,7 @@ class CMSHandler(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(json_str.encode("utf-8"))))
+        self.add_security_headers()
         self.end_headers()
         self.wfile.write(json_str.encode("utf-8"))
 
@@ -926,13 +1134,15 @@ def main():
     print(f"║  Live Preview: http://localhost:{PORT}/        ║")
     print(f"║  Press Ctrl+C to stop                         ║")
     print(f"╚═══════════════════════════════════════════════╝")
+    print(f"\n  ⚡ Auth Token (use in admin panel): {CMS_AUTH_TOKEN}\n")
 
     # Build site on startup
     build_site()
     print("✓ Site built from content.json")
 
-    server = HTTPServer(("localhost", PORT), CMSHandler)
-    print(f"✓ Server running on port {PORT}")
+    # S-15: Use ThreadingHTTPServer instead of single-threaded HTTPServer
+    server = ThreadingHTTPServer(("localhost", PORT), CMSHandler)
+    print(f"✓ Server running on port {PORT} (threaded)")
 
     # Open admin in browser
     threading.Timer(1.0, lambda: webbrowser.open(f"http://localhost:{PORT}/admin/")).start()
