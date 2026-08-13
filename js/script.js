@@ -4,6 +4,17 @@
    lightbox, form handling, scroll reveal
    ═══════════════════════════════════════════════════════════════ */
 
+// ─── MOBILE HERO HEIGHT FIX ───
+// Viewport units (vh/svh/dvh) change when the mobile address bar
+// collapses/expands during scroll, causing the hero images to resize
+// (zoom) and jank the scroll. Lock the hero to a fixed pixel height
+// via a CSS custom property that doesn't change during scroll.
+function setAppHeight() {
+  document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+}
+setAppHeight();
+window.addEventListener('resize', setAppHeight);
+
 (function() {
     'use strict';
 
