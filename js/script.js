@@ -8,12 +8,16 @@
 // Viewport units (vh/svh/dvh) change when the mobile address bar
 // collapses/expands during scroll, causing the hero images to resize
 // (zoom) and jank the scroll. Lock the hero to a fixed pixel height
-// via a CSS custom property that doesn't change during scroll.
+// via a CSS custom property. Set once at load; only update on
+// orientationchange (NOT resize — resize fires on every address bar
+// transition, which would recreate the problem we're fixing).
 function setAppHeight() {
   document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
 }
 setAppHeight();
-window.addEventListener('resize', setAppHeight);
+window.addEventListener('orientationchange', function() {
+  setTimeout(setAppHeight, 200);
+});
 
 (function() {
     'use strict';
