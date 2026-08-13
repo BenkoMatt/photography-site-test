@@ -77,14 +77,13 @@
       },
       {
         "name": "Weddings",
-        "price": "650",
+        "price": "850",
         "price_prefix": "$",
         "price_suffix": "",
         "tagline": "",
         "image": "photos/pricing/wedding-party-kiss-01.jpeg",
         "object_position": "63% 38%",
         "features": [
-          "All-Day Coverage",
           "40+ Sneak Peeks 1–2 Weeks After Wedding Date",
           "300+ Edited Online Wedding Gallery"
         ],
